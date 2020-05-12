@@ -80,7 +80,6 @@ public class AzureKeyVaultClient extends AzureClient {
             } else {
                 KeyVaultError error = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), KeyVaultError.class);
                 if (statusCode == 404) {
-                    //TODO
                     throw new KeyNotFoundException(error.getError().getMessage());
                 } else {
                     throw new UnknownKeyVaultException(error.getError().getMessage());

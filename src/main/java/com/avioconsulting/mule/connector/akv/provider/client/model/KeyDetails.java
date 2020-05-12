@@ -2,6 +2,7 @@ package com.avioconsulting.mule.connector.akv.provider.client.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 import java.util.Map;
 
 public class KeyDetails {
@@ -12,10 +13,8 @@ public class KeyDetails {
     @SerializedName(value = "kty")
     private String kty;
 
-    //TODO Array of Strings
-
-    //@SerializedName(value = "key_ops")
-    //private Map<String,String> key_ops;
+    @SerializedName(value = "key_ops")
+    private List<String> keyOps;
 
     @SerializedName(value = "n")
     private String n;
@@ -47,17 +46,17 @@ public class KeyDetails {
         return kty;
     }
 
+    public List<String> getKeyOps() {
+        return keyOps;
+    }
+
+    public void setKeyOps(List<String> keyOps) {
+        this.keyOps = keyOps;
+    }
+
     public void setKty(String kty) {
         this.kty = kty;
     }
-
-   // public Map<String, String> getKey_ops() {
-  //      return key_ops;
-  //  }
-
-   // public void setKey_ops(Map<String, String> key_ops) {
-   //     this.key_ops = key_ops;
-   // }
 
     public String getN() {
         return n;
@@ -113,7 +112,7 @@ public class KeyDetails {
                 "key{" +
                 "kid='" + kid + '\'' +
                 ", kty='" + kty + '\'' +
-                //", key_ops='" + key_ops + '\'' +
+                ", key_ops='" + keyOps + '\'' +
                 ", n='" + n + '\'' +
                 ", e='" + e + '\'' +
                 "}" +
