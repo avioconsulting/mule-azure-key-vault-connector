@@ -5,11 +5,14 @@
           http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd">
 
     <akv:config name="config" >
-        <akv:connection tenantId="aaaaaaaa-1234-00a1-1234-abcdef123456" clientId="bbbbbb-4321-41e7-aaaa-a00500000074" clientSecret="replace_client_secret" baseUri="https://login.microsoftonline.com/" />
+        <akv:connection tenantId="MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="MOCK_SECRET" baseUri="${akvUrl}" />
     </akv:config>
 
-    <flow name="authFlow">
-        <akv:get-secret config-ref="config" path="https://mule-connector-vault.vault.azure.net/secrets/mysecret"/>
+    <flow name="getSecretSuccess">
+        <akv:get-secret config-ref="config" path="${akvUrl}/secrets/mysecret"/>
     </flow>
 
+    <flow name="getSecretNotFound">
+        <akv:get-secret config-ref="config" path="${akvUrl}/secrets/mysecretnotfound"/>
+    </flow>
 </mule>
