@@ -1,10 +1,14 @@
 package com.avioconsulting.mule.connector.akv.provider.client;
 
+import com.avioconsulting.mule.connector.akv.provider.api.error.KeyNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.SecretNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.UnknownKeyVaultException;
 import com.avioconsulting.mule.connector.akv.provider.client.model.KeyVaultError;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import org.mule.runtime.http.api.HttpConstants;
 import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpRequestOptions;
@@ -39,23 +43,52 @@ public class AzureKeyVaultClient extends AzureClient {
             HttpResponse response = completable.get();
             Gson gson = new Gson();
             Integer statusCode = response.getStatusCode();
-            if(statusCode == 200) {
+            if (statusCode == 200) {
                 Secret secret = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), Secret.class);
                 LOGGER.info(secret.toString());
                 return secret;
             } else {
                 KeyVaultError error = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), KeyVaultError.class);
-                if(statusCode == 404) {
+                if (statusCode == 404) {
                     throw new SecretNotFoundException(error.getError().getMessage());
                 } else {
                     throw new UnknownKeyVaultException(error.getError().getMessage());
                 }
             }
-        } catch (InterruptedException|ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             LOGGER.error("Error retrieving secret at " + path, e);
             throw new UnknownKeyVaultException(e.getMessage());
         }
     }
 
-
+    public Key getKey(String path) {
+        HttpRequest request = getAuthenticatedHttpRequestBuilder().
+                uri(path).
+                addQueryParam(PARAM_API_VERSION, API_VERSION).
+                method(HttpConstants.Method.GET).build();
+        System.out.println("GetKey Request: " + request.toString());
+        HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
+        CompletableFuture<HttpResponse> completable = getHttpClient().sendAsync(request, requestOptions);
+        try {
+            HttpResponse response = completable.get();
+            Gson gson = new Gson();
+            Integer statusCode = response.getStatusCode();
+            if (statusCode == 200) {
+                Key key = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), Key.class);
+                LOGGER.info(key.toString());
+                return key;
+            } else {
+                KeyVaultError error = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), KeyVaultError.class);
+                if (statusCode == 404) {
+                    //TODO
+                    throw new KeyNotFoundException(error.getError().getMessage());
+                } else {
+                    throw new UnknownKeyVaultException(error.getError().getMessage());
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.error("Error retrieving Key at " + path, e);
+            throw new UnknownKeyVaultException(e.getMessage());
+        }
+    }
 }
