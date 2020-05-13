@@ -4,6 +4,7 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.ANY;
 
 import com.avioconsulting.mule.connector.akv.provider.api.AkvConfiguration;
 import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorTypeProvider;
+import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
 import com.avioconsulting.mule.connector.akv.provider.internal.connection.AkvConnection;
 import org.mule.runtime.extension.api.annotation.error.Throws;
@@ -23,4 +24,9 @@ public class AkvOperations {
     return connection.getSecret(path);
   }
 
+  @Throws(AzureKeyVaultErrorTypeProvider.class)
+  @MediaType(value = ANY, strict = false)
+  public Key getKey(@Config AkvConfiguration configuration, @Connection AkvConnection connection, String path) {
+    return connection.getKey(path);
+  }
 }

@@ -15,4 +15,12 @@
     <flow name="getSecretNotFound">
         <akv:get-secret config-ref="config" path="${akvUrl}/secrets/mysecretnotfound"/>
     </flow>
+
+    <flow name="getKeySuccess" >
+        <akv:get-key config-ref="config" path="${akvUrl}/keys/test-poc-key-avio"/>
+    </flow>
+
+    <flow name="getKeyNotFound">
+        <akv:get-secret config-ref="config" path="${akvUrl}/keys/test-poc-keynotfound"/>
+    </flow>
 </mule>
