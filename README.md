@@ -1,6 +1,6 @@
 # Azure Key Vault Extension
 
-This connector allows the easy integration with Azure Key Vault.  All operations use the [Azure Key Vault REST API](https://docs.microsoft.com/en-us/rest/api/keyvault/) being invoked with non-blocking async requests. 
+This connector allows the easy integration with Azure Key Vault.  All operations use the [Azure Key Vault REST API](https://docs.microsoft.com/en-us/rest/api/keyvault/) being invoked with a HTTP Client. 
 
 ## Operations
 
@@ -17,7 +17,7 @@ This operation retrieves data about a specific certificate.
 Link to official documentation.  [Azure - Get Certificate](https://docs.microsoft.com/en-us/rest/api/keyvault/getcertificate/getcertificate])
 
 
-## Usage
+## Dependency
 Add this dependency to your application pom.xml
 
 ```
@@ -26,6 +26,28 @@ Add this dependency to your application pom.xml
 <version>0.1.0-SNAPSHOT</version>
 <classifier>mule-plugin</classifier>
 ```
+
+## Usage
+Sample calls to the key vault.  The `path` attribute is the full URL to retrieve the secret/key/certificate.
+```
+<akv:get-secret config-ref="config" 
+    path="https://vault-name.vault.azure.net/secrets/my-test-secret"/>
+
+<akv:get-key config-ref="config" 
+    path="https://vault-name.vault.azure.net/keys/my-test-key"/>
+
+<akv:get-certificate config-ref="config" 
+    path="https://vault-name.vault.azure.net/certificates/my-test-certificate"/>
+```
+
+### Configuration
+|Parameter|Sample|Description|
+|---|---|---|
+|Azure OAuth Base URI|https://login.microsoftonline.com/|The base url of the login server.|
+|Azure Tenant Id|`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`|The Tenant ID of the Azure account.|
+|Service account client id|`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`|The account client id.|
+|Service account client secret|`password1`|The account client secret.|
+|Time for API calls|15000|Defaults to 30000 (30 seconds)|
 
 
 ## Deploying to Exchange
