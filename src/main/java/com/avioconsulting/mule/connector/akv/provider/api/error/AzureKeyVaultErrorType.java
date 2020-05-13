@@ -6,5 +6,6 @@ public enum AzureKeyVaultErrorType implements ErrorTypeDefinition<AzureKeyVaultE
    ACCESS_DENIED,
    SECRET_NOT_FOUND,
    KEY_NOT_FOUND,
+   CERTIFICATE_NOT_FOUND,
    UNKNOWN_ERROR
 }

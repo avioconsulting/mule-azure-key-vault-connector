@@ -1,8 +1,10 @@
 package com.avioconsulting.mule.connector.akv.provider.client;
 
+import com.avioconsulting.mule.connector.akv.provider.api.error.CertificateNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.KeyNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.SecretNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.UnknownKeyVaultException;
+import com.avioconsulting.mule.connector.akv.provider.client.model.Certificate;
 import com.avioconsulting.mule.connector.akv.provider.client.model.KeyVaultError;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
@@ -26,6 +28,7 @@ public class AzureKeyVaultClient extends AzureClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(AzureKeyVaultClient.class);
     public static final String PARAM_API_VERSION = "api-version";
     public static final String API_VERSION = "7.0";
+    public static final String CERTIFICATE_STATUS_PATH = "/completed";
 
     public AzureKeyVaultClient(HttpClient httpClient, String baseUri, String tenantId, String clientId, String clientSecret, Integer timeout) {
         super(httpClient, baseUri, tenantId, clientId, clientSecret, timeout);
@@ -66,7 +69,7 @@ public class AzureKeyVaultClient extends AzureClient {
                 uri(path).
                 addQueryParam(PARAM_API_VERSION, API_VERSION).
                 method(HttpConstants.Method.GET).build();
-        System.out.println("GetKey Request: " + request.toString());
+        LOGGER.info("GetKey Request: " + request.toString());
         HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
         CompletableFuture<HttpResponse> completable = getHttpClient().sendAsync(request, requestOptions);
         try {
@@ -87,6 +90,39 @@ public class AzureKeyVaultClient extends AzureClient {
             }
         } catch (InterruptedException | ExecutionException e) {
             LOGGER.error("Error retrieving Key at " + path, e);
+            throw new UnknownKeyVaultException(e.getMessage());
+        }
+    }
+
+    public Certificate getCertificate(String path){
+
+        HttpRequest request = getAuthenticatedHttpRequestBuilder().
+                uri(path + CERTIFICATE_STATUS_PATH).
+                addQueryParam(PARAM_API_VERSION, API_VERSION).
+                method(HttpConstants.Method.GET).build();
+        LOGGER.info("GetCertificate Request: " + request.toString());
+        HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
+        CompletableFuture<HttpResponse> completable = getHttpClient().sendAsync(request, requestOptions);
+        try {
+            HttpResponse response = completable.get();
+            Gson gson = new Gson();
+            Integer statusCode = response.getStatusCode();
+            LOGGER.info("Found status code: " + statusCode);
+            if (statusCode == 200) {
+                Certificate certificate = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), Certificate.class);
+                LOGGER.info(certificate.toString());
+                return certificate;
+            } else {
+                LOGGER.info(response.toString());
+                KeyVaultError error = gson.fromJson(new InputStreamReader(response.getEntity().getContent()), KeyVaultError.class);
+                if (statusCode == 404) {
+                    throw new CertificateNotFoundException(error.getError().getMessage());
+                } else {
+                    throw new UnknownKeyVaultException(error.getError().getMessage());
+                }
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.error("Error retrieving Certificate at " + path, e);
             throw new UnknownKeyVaultException(e.getMessage());
         }
     }

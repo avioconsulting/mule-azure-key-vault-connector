@@ -76,7 +76,7 @@ public class AzureClient {
                 uri(baseUri + tenantId + AUTH_ENDPOINT).
                 method(HttpConstants.Method.POST).
                 addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
-        System.out.println("Auth Request: " + request.toString());
+//        System.out.println("Auth Request: " + request.toString());
 
         HttpRequestOptions requestOptions = HttpRequestOptions.builder().responseTimeout(timeout).followsRedirect(false).build();
         CompletableFuture<HttpResponse> completable = httpClient.sendAsync(request, requestOptions);

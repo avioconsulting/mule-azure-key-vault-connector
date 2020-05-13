@@ -23,4 +23,12 @@
     <flow name="getKeyNotFound">
         <akv:get-secret config-ref="config" path="${akvUrl}/keys/test-poc-keynotfound"/>
     </flow>
+
+    <flow name="getCertificateSuccess">
+        <akv:get-certificate config-ref="config" path="${akvUrl}/certificates/mockcertificate"/>
+    </flow>
+
+    <flow name="getCertificateNotFound">
+        <akv:get-certificate config-ref="config" path="${akvUrl}/certificates/mockcertificatenotfound"/>
+    </flow>
 </mule>

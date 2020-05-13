@@ -14,6 +14,8 @@ public class AzureKeyVaultErrorTypeProvider implements ErrorTypeProvider {
         errors.add(AzureKeyVaultErrorType.ACCESS_DENIED);
         errors.add(AzureKeyVaultErrorType.SECRET_NOT_FOUND);
         errors.add(AzureKeyVaultErrorType.UNKNOWN_ERROR);
+        errors.add(AzureKeyVaultErrorType.KEY_NOT_FOUND);
+        errors.add(AzureKeyVaultErrorType.CERTIFICATE_NOT_FOUND);
 
         return errors;
     }
