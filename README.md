@@ -1,14 +1,23 @@
-# Akv Extension
+# Azure Key Vault Extension
 
-Add description ...
+This connector allows the easy integration with Azure Key Vault.  All operations use the [Azure Key Vault REST API](https://docs.microsoft.com/en-us/rest/api/keyvault/) being invoked with non-blocking async requests. 
+
+## Operations
+
+### Get Secret
+Retrieves the specified secret.  
+Link to official documentation.  [Azure - Get Secret](https://docs.microsoft.com/en-us/rest/api/keyvault/getsecret/getsecret)
+
+### Get Key
+Retrieves the public portion of a stored key.  
+Link to official documentation.  [Azure - Get Key](https://docs.microsoft.com/en-us/rest/api/keyvault/getkey/getkey) 
+
+### Get Certificate
+This operation retrieves data about a specific certificate.  
+Link to official documentation.  [Azure - Get Certificate](https://docs.microsoft.com/en-us/rest/api/keyvault/getcertificate/getcertificate])
 
 
-...
-
-
-...
-
-
+## Usage
 Add this dependency to your application pom.xml
 
 ```
@@ -17,3 +26,49 @@ Add this dependency to your application pom.xml
 <version>0.1.0-SNAPSHOT</version>
 <classifier>mule-plugin</classifier>
 ```
+
+
+## Deploying to Exchange
+The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.
+> Shamelessly stolen from Manik Mager's [blog post](https://javastreets.com/blog/publish-connectors-to-anypoint-exchange.html)
+1. Update the connector pom.xml file
+    * Change the `groupId` value to the Organization Id 
+        * (Id found in Anypoint -> Access Management -> Organization -> You're Org)
+        ```
+           <modelVersion>4.0.0</modelVersion>
+           <groupId>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</groupId>
+           <artifactId>mule-azure-key-vault-connector</artifactId>
+           <version>0.1.0-SNAPSHOT</version>
+           <packaging>mule-extension</packaging>
+           <name>Akv Extension</name>
+        ```
+    * Update `distributionManagement` to point to the Exchange Repository (Uncomment these lines)
+        ```
+        <distributionManagement>
+          <snapshotRepository>
+            <id>exchange-repository</id>
+            <name>Exchange Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+            <layout>default</layout>
+          </snapshotRepository>
+          <repository>
+            <id>exchange-repository</id>
+            <name>Exchange Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+            <layout>default</layout>
+          </repository>
+        </distributionManagement>
+        ```
+1. Configure your `~/.m2/settings.xml` file with your Exchange credentials
+    ```
+    <servers>
+     <server>
+       <id>exchange-repository</id>
+       <username>USERNAME</username>
+       <password>PASSWORD</password>
+     </server>
+    </servers>
+    ```
+1. Execute `mvn deploy` to publish to Exchange
+
+Enjoy!

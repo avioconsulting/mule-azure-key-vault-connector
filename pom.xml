@@ -14,6 +14,8 @@
         <muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
 <!--        <muleSchedulerServiceVersion>1.1.11</muleSchedulerServiceVersion>-->
 <!--        <muleHttpServiceVersion>1.1.1</muleHttpServiceVersion>-->
+
+        <organizationId>REPLACE_ME_TO_DEPLOY_TO_EXCHANGE</organizationId>
     </properties>
 
     <parent>
@@ -99,4 +101,19 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    <!-- Uncomment this for Exchange deployment -->
+    <!--<distributionManagement>
+        <snapshotRepository>
+            <id>exchange-repository</id>
+            <name>Exchange Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+            <layout>default</layout>
+        </snapshotRepository>
+        <repository>
+            <id>exchange-repository</id>
+            <name>Exchange Repository</name>
+            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>-->
 </project>
