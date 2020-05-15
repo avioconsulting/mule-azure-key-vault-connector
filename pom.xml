@@ -8,13 +8,12 @@
     <artifactId>mule-azure-key-vault-connector</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>mule-extension</packaging>
-    <name>Akv Extension</name>
+    <name>MuleSoft Azure Key Vault Connector</name>
     <properties>
         <muleSchedulerServiceVersion>1.2.0</muleSchedulerServiceVersion>
         <muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
-<!--        <muleSchedulerServiceVersion>1.1.11</muleSchedulerServiceVersion>-->
-<!--        <muleHttpServiceVersion>1.1.1</muleHttpServiceVersion>-->
-
+	<maven.site.plugin.version>3.9.0</maven.site.plugin.version>
+	<mavenCompilerVersion>3.8.1</mavenCompilerVersion>
         <organizationId>REPLACE_ME_TO_DEPLOY_TO_EXCHANGE</organizationId>
     </properties>
 
@@ -24,20 +23,24 @@
         <version>1.2.0</version>
     </parent>
 
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <xmlOutput>true</xmlOutput>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+	      <reporting>
+    <plugins>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.0.0</version>
+      </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.1</version>
+            <configuration>
+                <configLocation>google_checks.xml</configLocation>
+            </configuration>
+        </plugin>	      
+    </plugins>
+  </reporting>
+    
     <dependencies>
         <dependency>
             <groupId>org.mule.services</groupId>
@@ -88,19 +91,19 @@
         <repository>
             <id>Central</id>
             <name>Central</name>
-            <url>http://repo1.maven.org/maven2/</url>
+            <url>https://repo1.maven.org/maven2/</url>
             <layout>default</layout>
         </repository>
         <repository>
             <id>mulesoft-releases</id>
             <name>MuleSoft Releases Repository</name>
-            <url>http://repository.mulesoft.org/releases/</url>
+            <url>https://repository.mulesoft.org/releases/</url>
             <layout>default</layout>
         </repository>
         <repository>
             <id>mulesoft-snapshots</id>
             <name>MuleSoft Snapshots Repository</name>
-            <url>http://repository.mulesoft.org/snapshots/</url>
+            <url>https://repository.mulesoft.org/snapshots/</url>
             <layout>default</layout>
         </repository>
     </repositories>
@@ -109,7 +112,7 @@
             <id>mulesoft-release</id>
             <name>mulesoft release repository</name>
             <layout>default</layout>
-            <url>http://repository.mulesoft.org/releases/</url>
+            <url>https://repository.mulesoft.org/releases/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

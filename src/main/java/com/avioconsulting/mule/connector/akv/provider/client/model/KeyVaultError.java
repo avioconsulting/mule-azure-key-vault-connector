@@ -4,21 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 public class KeyVaultError {
 
-    @SerializedName(value = "error")
-    private Error error;
+  @SerializedName(value = "error")
+  private Error error;
 
-    public Error getError() {
-        return error;
-    }
+  public Error getError() {
+    return error;
+  }
 
-    public void setError(Error error) {
-        this.error = error;
-    }
+  public void setError(Error error) {
+    this.error = error;
+  }
 
-    @Override
-    public String toString() {
-        return "KeyVaultError{" +
-                "error=" + error +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "KeyVaultError{" + "error=" + error + '}';
+  }
 }

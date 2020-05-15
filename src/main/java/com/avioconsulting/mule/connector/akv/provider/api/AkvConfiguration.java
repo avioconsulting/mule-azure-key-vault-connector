@@ -4,11 +4,10 @@ import com.avioconsulting.mule.connector.akv.provider.internal.connection.AkvCon
 import com.avioconsulting.mule.connector.akv.provider.internal.operation.AkvOperations;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
 
 /**
- * This class represents an extension configuration, values set in this class are commonly used across multiple
- * operations since they represent something core from the extension.
+ * This class represents an extension configuration, values set in this class are commonly used
+ * across multiple operations since they represent something core from the extension.
  */
 @Operations(AkvOperations.class)
 @ConnectionProviders(AkvConnectionProvider.class)
