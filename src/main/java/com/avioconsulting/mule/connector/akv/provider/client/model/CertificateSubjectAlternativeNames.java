@@ -1,51 +1,51 @@
 package com.avioconsulting.mule.connector.akv.provider.client.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class CertificateSubjectAlternativeNames {
-    @SerializedName(value = "dns_names")
-    private List<String> dnsNames;
 
-    @SerializedName(value = "emails")
-    private List<String> emails;
+  @SerializedName(value = "dns_names")
+  private List<String> dnsNames;
 
-    @SerializedName(value = "upns")
-    private List<String> upns;
+  @SerializedName(value = "emails")
+  private List<String> emails;
 
-    public List<String> getEmails() {
-        return emails;
-    }
+  @SerializedName(value = "upns")
+  private List<String> upns;
 
-    public void setEmails(List<String> emails) {
-        this.emails = emails;
-    }
+  public List<String> getEmails() {
+    return emails;
+  }
 
-    public List<String> getUpns() {
-        return upns;
-    }
+  public void setEmails(List<String> emails) {
+    this.emails = emails;
+  }
 
-
-    public void setUpns(List<String> upns) {
-        this.upns = upns;
-    }
-
-    public List<String> getDnsNames() {
-        return dnsNames;
-    }
-
-    public void setDnsNames(List<String> dnsNames) {
-        this.dnsNames = dnsNames;
-    }
+  public List<String> getUpns() {
+    return upns;
+  }
 
 
-    @Override
-    public String toString() {
-        return "CertificateSubjectAlternativeNames{" +
-                "dnsNames=" + dnsNames +
-                ", emails=" + emails +
-                ", upns=" + upns +
-                '}';
-    }
+  public void setUpns(List<String> upns) {
+    this.upns = upns;
+  }
+
+  public List<String> getDnsNames() {
+    return dnsNames;
+  }
+
+  public void setDnsNames(List<String> dnsNames) {
+    this.dnsNames = dnsNames;
+  }
+
+
+  @Override
+  public String toString() {
+    return "CertificateSubjectAlternativeNames{" +
+        "dnsNames=" + dnsNames +
+        ", emails=" + emails +
+        ", upns=" + upns +
+        '}';
+  }
 }

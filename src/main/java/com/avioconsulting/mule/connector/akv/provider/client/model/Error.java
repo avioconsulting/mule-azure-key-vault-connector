@@ -4,45 +4,45 @@ import com.google.gson.annotations.SerializedName;
 
 public class Error {
 
-    @SerializedName(value = "code")
-    private String code;
+  @SerializedName(value = "code")
+  private String code;
 
-    @SerializedName(value = "message")
-    private String message;
+  @SerializedName(value = "message")
+  private String message;
 
-    @SerializedName(value = "innerError")
-    private Error innerError;
+  @SerializedName(value = "innerError")
+  private Error innerError;
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public String getMessage() {
+    return message;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-    public Error getInnerError() {
-        return innerError;
-    }
+  public Error getInnerError() {
+    return innerError;
+  }
 
-    public void setInnerError(Error innerError) {
-        this.innerError = innerError;
-    }
+  public void setInnerError(Error innerError) {
+    this.innerError = innerError;
+  }
 
-    @Override
-    public String toString() {
-        return "Error{" +
-                "code='" + code + '\'' +
-                ", message='" + message + '\'' +
-                ", innerError=" + innerError +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Error{"
+        + "code='" + code + '\''
+        + ", message='" + message + '\''
+        + ", innerError=" + innerError
+        + '}';
+  }
 }

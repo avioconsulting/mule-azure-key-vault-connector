@@ -1,98 +1,97 @@
 package com.avioconsulting.mule.connector.akv.provider.client.model;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.util.Map;
 
 public class Secret {
 
-    @SerializedName(value = "contentType")
-    private String contentType;
+  @SerializedName(value = "contentType")
+  private String contentType;
 
-    @SerializedName(value = "id")
-    private String id;
+  @SerializedName(value = "id")
+  private String id;
 
-    @SerializedName(value = "kid")
-    private String kid;
+  @SerializedName(value = "kid")
+  private String kid;
 
-    @SerializedName(value = "managed")
-    private Boolean managed;
+  @SerializedName(value = "managed")
+  private Boolean managed;
 
-    @SerializedName(value = "tags")
-    private Map<String,String> tags;
+  @SerializedName(value = "tags")
+  private Map<String, String> tags;
 
-    @SerializedName(value = "value")
-    private String value;
+  @SerializedName(value = "value")
+  private String value;
 
-    @SerializedName(value = "attributes")
-    private SecretAttributes attributes;
+  @SerializedName(value = "attributes")
+  private SecretAttributes attributes;
 
-    public String getContentType() {
-        return contentType;
-    }
+  public String getContentType() {
+    return contentType;
+  }
 
-    public void setContentType(String contentType) {
-        this.contentType = contentType;
-    }
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public String getKid() {
-        return kid;
-    }
+  public String getKid() {
+    return kid;
+  }
 
-    public void setKid(String kid) {
-        this.kid = kid;
-    }
+  public void setKid(String kid) {
+    this.kid = kid;
+  }
 
-    public Boolean getManaged() {
-        return managed;
-    }
+  public Boolean getManaged() {
+    return managed;
+  }
 
-    public void setManaged(Boolean managed) {
-        this.managed = managed;
-    }
+  public void setManaged(Boolean managed) {
+    this.managed = managed;
+  }
 
-    public Map<String, String> getTags() {
-        return tags;
-    }
+  public Map<String, String> getTags() {
+    return tags;
+  }
 
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
-    }
+  public void setTags(Map<String, String> tags) {
+    this.tags = tags;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public void setValue(String value) {
+    this.value = value;
+  }
 
-    public SecretAttributes getAttributes() {
-        return attributes;
-    }
+  public SecretAttributes getAttributes() {
+    return attributes;
+  }
 
-    public void setAttributes(SecretAttributes attributes) {
-        this.attributes = attributes;
-    }
+  public void setAttributes(SecretAttributes attributes) {
+    this.attributes = attributes;
+  }
 
-    @Override
-    public String toString() {
-        return "Secret{" +
-                "contentType='" + contentType + '\'' +
-                ", id='" + id + '\'' +
-                ", kid='" + kid + '\'' +
-                ", managed=" + managed +
-                ", tags=" + tags +
-                ", value='" + value + '\'' +
-                ", attributes=" + attributes +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Secret{" +
+        "contentType='" + contentType + '\'' +
+        ", id='" + id + '\'' +
+        ", kid='" + kid + '\'' +
+        ", managed=" + managed +
+        ", tags=" + tags +
+        ", value='" + value + '\'' +
+        ", attributes=" + attributes +
+        '}';
+  }
 }

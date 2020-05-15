@@ -7,7 +7,8 @@ import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
 import org.mule.runtime.http.api.client.HttpClient;
 
 /**
- * This class represents an extension connection just as example (there is no real connection with anything here c:).
+ * This class represents an extension connection just as example (there is no real connection with
+ * anything here c:).
  */
 public final class AkvConnection {
 
@@ -16,12 +17,13 @@ public final class AkvConnection {
   private String tenantId;
   private String clientId;
   private String clientSecret;
-  private Integer timeout;
+  private final Integer timeout;
   private String id;
   private AzureKeyVaultClient client;
 
 
-  public AkvConnection(HttpClient httpClient, String baseUri, String tenantId, String clientId, String clientSecret, Integer timeout) {
+  public AkvConnection(HttpClient httpClient, String baseUri, String tenantId, String clientId,
+      String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
     this.baseUri = baseUri;
     this.tenantId = tenantId;
@@ -37,15 +39,12 @@ public final class AkvConnection {
   }
 
   public Boolean isValid() {
-    if(client != null && client.isValid()) {
-      return true;
-    } else {
-      return false;
-    }
+    return client != null && client.isValid();
   }
 
   public void initAkvClient() {
-    client = new AzureKeyVaultClient(httpClient, baseUri, tenantId, clientId, clientSecret, timeout);
+    client = new AzureKeyVaultClient(httpClient, baseUri, tenantId, clientId, clientSecret,
+        timeout);
   }
 
   public Secret getSecret(String path) {
