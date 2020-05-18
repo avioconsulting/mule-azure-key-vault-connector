@@ -47,7 +47,7 @@ Sample calls to the key vault.  The `path` attribute is the full URL to retrieve
 |Azure Tenant Id|`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`|The Tenant ID of the Azure account.|
 |Service account client id|`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`|The account client id.|
 |Service account client secret|`password1`|The account client secret.|
-|Time for API calls|15000|Defaults to 30000 (30 seconds)|
+|Timeout for API calls|15000|Defaults to 30000 (30 seconds)|
 
 
 ## Deploying to Exchange
