@@ -28,16 +28,13 @@ Add this dependency to your application pom.xml
 ```
 
 ## Usage
-Sample calls to the key vault.  The `path` attribute is the full URL to retrieve the secret/key/certificate.
+Sample calls to the key vault.  The `secretName`/`keyName`/`certificateName` attribute's are appropriate name of the secret/key/certificate.
 ```
-<akv:get-secret config-ref="config" 
-    path="https://vault-name.vault.azure.net/secrets/my-test-secret"/>
+<akv:get-secret config-ref="config" secretName="test-secret"/>
 
-<akv:get-key config-ref="config" 
-    path="https://vault-name.vault.azure.net/keys/my-test-key"/>
+<akv:get-key config-ref="config" keyName="test-key"/>
 
-<akv:get-certificate config-ref="config" 
-    path="https://vault-name.vault.azure.net/certificates/my-test-certificate"/>
+<akv:get-certificate config-ref="config" certificateName="test-certificate"/>
 ```
 
 ### Configuration
