@@ -71,6 +71,7 @@ public class EntityAttributes {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "EntityAttributes{" +
         "created=" + created +

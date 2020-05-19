@@ -41,6 +41,7 @@ public class CertificateSubjectAlternativeNames {
 
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateSubjectAlternativeNames{" +
         "dnsNames=" + dnsNames +

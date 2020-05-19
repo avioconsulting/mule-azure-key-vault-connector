@@ -84,6 +84,7 @@ public class CertificatePolicy {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificatePolicy{" +
         "id='" + id + '\'' +

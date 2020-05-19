@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 
 public class AzureClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AzureClient.class);
-
   public static final String PARAM_GRANT_TYPE = "grant_type";
   public static final String PARAM_CLIENT_ID = "client_id";
   public static final String PARAM_CLIENT_SECRET = "client_secret";
@@ -35,8 +33,8 @@ public class AzureClient {
   public static final String AUTH_HEADER = "Authorization";
   public static final String BEARER_PREFIX = "Bearer ";
   public static final Integer DEFAULT_TIMEOUT = 30000;
+  private static final Logger LOGGER = LoggerFactory.getLogger(AzureClient.class);
   public static final String AZURE_HOST = ".vault.azure.net";
-
 
   private final HttpClient httpClient;
   private final String vaultName;
@@ -44,8 +42,8 @@ public class AzureClient {
   private final String tenantId;
   private final String clientId;
   private final String clientSecret;
-  private OAuthToken token;
   private final Integer timeout;
+  private OAuthToken token;
 
   public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId, String clientId,
       String clientSecret, Integer timeout) {
@@ -77,7 +75,6 @@ public class AzureClient {
         uri(getAuthBaseUri() + tenantId + AUTH_ENDPOINT).
         method(HttpConstants.Method.POST).
         addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
-//        System.out.println("Auth Request: " + request.toString());
 
     HttpRequestOptions requestOptions = HttpRequestOptions.builder().responseTimeout(timeout)
         .followsRedirect(false).build();

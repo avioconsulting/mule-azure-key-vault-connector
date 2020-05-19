@@ -27,6 +27,7 @@ public class Key {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "{"
         + "key{" + key.toString()
