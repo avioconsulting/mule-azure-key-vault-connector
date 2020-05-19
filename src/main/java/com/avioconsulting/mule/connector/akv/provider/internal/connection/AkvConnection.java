@@ -22,6 +22,14 @@ public final class AkvConnection {
   private AzureKeyVaultClient client;
 
 
+  /**
+   * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
+   * @param baseUri         Authorization Base URL for Azure
+   * @param tenantId        Azure Tenant ID
+   * @param clientId        Azure Client ID
+   * @param clientSecret    Azure Client Secret
+   * @param timeout         Request timeout in ms, default 30000
+   */
   public AkvConnection(HttpClient httpClient, String baseUri, String tenantId, String clientId,
       String clientSecret, Integer timeout) {
     this.httpClient = httpClient;

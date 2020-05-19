@@ -32,7 +32,6 @@ public class AzureKeyVaultClient extends AzureClient {
     super(httpClient, baseUri, tenantId, clientId, clientSecret, timeout);
   }
 
-
   public Secret getSecret(String path) {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
         .uri(path)

@@ -29,7 +29,8 @@ public class AzureClient {
   public static final String PARAM_SCOPE = "scope";
   public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
   public static final String SCOPE = "https://vault.azure.net/.default";
-  public static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
+  public static final String APPLICATION_X_WWW_FORM_URLENCODED =
+          "application/x-www-form-urlencoded";
   public static final String HTTP_CONTENT_TYPE = "Content-Type";
   public static final String AUTH_ENDPOINT = "/oauth2/v2.0/token";
   public static final String AUTH_HEADER = "Authorization";
@@ -45,6 +46,14 @@ public class AzureClient {
   private OAuthToken token;
   private final Integer timeout;
 
+  /**
+   * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
+   * @param baseUri         Authorization Base URL for Azure
+   * @param tenantId        Azure Tenant ID
+   * @param clientId        Azure Client ID
+   * @param clientSecret    Azure Client Secret
+   * @param timeout         Request timeout in ms, default 30000
+   */
   public AzureClient(HttpClient httpClient, String baseUri, String tenantId, String clientId,
       String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
@@ -70,11 +79,10 @@ public class AzureClient {
 
     String body = mapToUrlParams(params);
     ByteArrayHttpEntity entity = new ByteArrayHttpEntity(body.getBytes(StandardCharsets.UTF_8));
-    HttpRequest request = HttpRequest.builder().
-        uri(baseUri + tenantId + AUTH_ENDPOINT).
-        method(HttpConstants.Method.POST).
-        addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
-//        System.out.println("Auth Request: " + request.toString());
+    HttpRequest request = HttpRequest.builder()
+        .uri(baseUri + tenantId + AUTH_ENDPOINT)
+        .method(HttpConstants.Method.POST)
+        .addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
 
     HttpRequestOptions requestOptions = HttpRequestOptions.builder().responseTimeout(timeout)
         .followsRedirect(false).build();
