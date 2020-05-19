@@ -10,6 +10,7 @@ import com.avioconsulting.mule.connector.akv.provider.client.model.KeyVaultError
 import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import org.mule.runtime.http.api.HttpConstants;
@@ -56,12 +57,12 @@ public class AzureKeyVaultClient extends AzureClient {
       Integer statusCode = response.getStatusCode();
       if (statusCode == 200) {
         Secret secret = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()), Secret.class);
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Secret.class);
         LOGGER.info(secret.toString());
         return secret;
       } else {
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()),
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                 KeyVaultError.class);
         if (statusCode == 404) {
           throw new SecretNotFoundException(error.getError().getMessage());
@@ -69,7 +70,7 @@ public class AzureKeyVaultClient extends AzureClient {
           throw new UnknownKeyVaultException(error.getError().getMessage());
         }
       }
-    } catch (InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       LOGGER.error("Error retrieving secret at " + secretName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }
@@ -97,12 +98,12 @@ public class AzureKeyVaultClient extends AzureClient {
       Integer statusCode = response.getStatusCode();
       if (statusCode == 200) {
         Key key = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()), Key.class);
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Key.class);
         LOGGER.info(key.toString());
         return key;
       } else {
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()),
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                 KeyVaultError.class);
         if (statusCode == 404) {
           throw new KeyNotFoundException(error.getError().getMessage());
@@ -110,7 +111,7 @@ public class AzureKeyVaultClient extends AzureClient {
           throw new UnknownKeyVaultException(error.getError().getMessage());
         }
       }
-    } catch (InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       LOGGER.error("Error retrieving Key at " + keyName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }
@@ -139,13 +140,13 @@ public class AzureKeyVaultClient extends AzureClient {
       LOGGER.info("Found status code: " + statusCode);
       if (statusCode == 200) {
         Certificate certificate = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()), Certificate.class);
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Certificate.class);
         LOGGER.info(certificate.toString());
         return certificate;
       } else {
         LOGGER.info(response.toString());
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent()),
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                 KeyVaultError.class);
         if (statusCode == 404) {
           throw new CertificateNotFoundException(error.getError().getMessage());
@@ -153,7 +154,7 @@ public class AzureKeyVaultClient extends AzureClient {
           throw new UnknownKeyVaultException(error.getError().getMessage());
         }
       }
-    } catch (InterruptedException | ExecutionException e) {
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       LOGGER.error("Error retrieving Certificate at " + certificateName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }

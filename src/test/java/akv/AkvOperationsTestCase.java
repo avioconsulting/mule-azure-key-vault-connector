@@ -161,7 +161,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     @Test
-    public void SecretNotFoundget() throws Exception {
+    public void secretNotFoundget() throws Exception {
         try {
             Object payloadValue = flowRunner("getSecretNotFound")
                     .run()

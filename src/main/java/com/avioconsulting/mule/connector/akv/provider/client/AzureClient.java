@@ -3,6 +3,7 @@ package com.avioconsulting.mule.connector.akv.provider.client;
 import com.avioconsulting.mule.connector.akv.provider.client.model.OAuthToken;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,12 +96,10 @@ public class AzureClient {
       HttpResponse response = completable.get();
       Gson gson = new Gson();
       token = gson
-          .fromJson(new InputStreamReader(response.getEntity().getContent()), OAuthToken.class);
+          .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthToken.class);
       token.setExpiresOn();
       LOGGER.info(token.toString());
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    } catch (ExecutionException e) {
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       e.printStackTrace();
     }
   }
@@ -119,11 +118,11 @@ public class AzureClient {
 
   protected String mapToUrlParams(Map<String, Object> map) {
     String params = "";
-    for (String k : map.keySet()) {
+    for( Map.Entry<String, Object> entry : map.entrySet()){
       if (params.length() > 0) {
-        params = params + "&" + k + "=" + map.get(k).toString();
+        params = params + "&" + entry.getKey() + "=" + entry.getValue().toString();
       } else {
-        params = k + "=" + map.get(k).toString();
+        params = entry.getKey() + "=" + entry.getValue().toString();
       }
     }
     return params;
