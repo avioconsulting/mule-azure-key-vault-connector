@@ -38,6 +38,7 @@ public class Error {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "Error{"
         + "code='" + code + '\''

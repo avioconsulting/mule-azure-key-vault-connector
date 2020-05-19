@@ -38,6 +38,7 @@ public class CertificateIssuer {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateIssuer{" +
         "certificateType='" + certificateType + '\'' +

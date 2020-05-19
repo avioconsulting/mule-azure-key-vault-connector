@@ -35,12 +35,30 @@
             <artifactId>maven-checkstyle-plugin</artifactId>
             <version>3.1.1</version>
             <configuration>
-                <configLocation>google_checks.xml</configLocation>
+                <configLocation>https://raw.githubusercontent.com/avioconsulting/code-quality-config/master/checkstyle/avio_google_checks.xml</configLocation>
             </configuration>
         </plugin>	      
     </plugins>
   </reporting>
-    
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.1.1</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.puppycrawl.tools</groupId>
+                            <artifactId>checkstyle</artifactId>
+                            <version>8.32</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
     <dependencies>
         <dependency>
             <groupId>org.mule.services</groupId>

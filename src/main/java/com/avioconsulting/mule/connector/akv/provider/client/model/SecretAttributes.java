@@ -71,6 +71,7 @@ public class SecretAttributes {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "SecretAttributes{" +
         "created=" + created +

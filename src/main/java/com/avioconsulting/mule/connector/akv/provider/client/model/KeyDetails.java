@@ -105,6 +105,7 @@ public class KeyDetails {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "{" +
         "key{" +

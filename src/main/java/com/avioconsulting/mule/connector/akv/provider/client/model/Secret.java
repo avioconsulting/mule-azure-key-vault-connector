@@ -83,6 +83,7 @@ public class Secret {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "Secret{" +
         "contentType='" + contentType + '\'' +

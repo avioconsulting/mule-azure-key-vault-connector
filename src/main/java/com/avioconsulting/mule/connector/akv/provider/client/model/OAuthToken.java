@@ -65,6 +65,7 @@ public class OAuthToken {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "OAuthToken{" +
         "tokenType='" + tokenType + '\'' +

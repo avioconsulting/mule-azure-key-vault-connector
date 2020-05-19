@@ -71,6 +71,7 @@ public class KeyAttributes {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "KeyAttributes{" +
         "created=" + created +

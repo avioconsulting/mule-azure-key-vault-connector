@@ -27,6 +27,7 @@ public class CertificateTrigger {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateTrigger{" +
         "daysBeforeExpiry=" + daysBeforeExpiry +

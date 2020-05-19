@@ -16,6 +16,7 @@ public class CertificateAction {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateAction{" +
         "actionType='" + actionType + '\'' +

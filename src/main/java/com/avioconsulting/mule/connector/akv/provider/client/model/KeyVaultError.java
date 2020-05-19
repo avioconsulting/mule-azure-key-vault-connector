@@ -16,6 +16,7 @@ public class KeyVaultError {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "KeyVaultError{" + "error=" + error + '}';
   }

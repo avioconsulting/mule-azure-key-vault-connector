@@ -56,6 +56,7 @@ public class CertificateKeyProperties {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "{ " +
         "exportable : " + exportable + ", " +

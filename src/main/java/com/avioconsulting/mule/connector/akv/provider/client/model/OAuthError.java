@@ -84,6 +84,7 @@ public class OAuthError {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "OAuthError{" +
         "error='" + error + '\'' +

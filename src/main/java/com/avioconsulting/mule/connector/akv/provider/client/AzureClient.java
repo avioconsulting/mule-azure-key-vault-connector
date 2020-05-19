@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
 
 public class AzureClient {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AzureClient.class);
-
   public static final String PARAM_GRANT_TYPE = "grant_type";
   public static final String PARAM_CLIENT_ID = "client_id";
   public static final String PARAM_CLIENT_SECRET = "client_secret";
@@ -36,8 +34,8 @@ public class AzureClient {
   public static final String AUTH_HEADER = "Authorization";
   public static final String BEARER_PREFIX = "Bearer ";
   public static final Integer DEFAULT_TIMEOUT = 30000;
+  private static final Logger LOGGER = LoggerFactory.getLogger(AzureClient.class);
   public static final String AZURE_HOST = ".vault.azure.net";
-
 
   private final HttpClient httpClient;
   private final String vaultName;
@@ -45,8 +43,8 @@ public class AzureClient {
   private final String tenantId;
   private final String clientId;
   private final String clientSecret;
-  private OAuthToken token;
   private final Integer timeout;
+  private OAuthToken token;
 
   /**
    * Provides a client object, used for retrieving entities from Azure Key Vault.
@@ -85,7 +83,6 @@ public class AzureClient {
 
     String body = mapToUrlParams(params);
     ByteArrayHttpEntity entity = new ByteArrayHttpEntity(body.getBytes(StandardCharsets.UTF_8));
-
     HttpRequest request = HttpRequest.builder()
         .uri(getAuthBaseUri() + tenantId + AUTH_ENDPOINT)
         .method(HttpConstants.Method.POST)
