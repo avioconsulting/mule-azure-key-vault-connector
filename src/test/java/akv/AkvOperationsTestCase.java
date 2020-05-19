@@ -41,8 +41,8 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
     protected String getConfigFile() {
         String akvUrl = String.format("http://%s:%d/", mockServerRule.getClient().remoteAddress().getHostString(), mockServerRule.getClient().remoteAddress().getPort());
         logger.info("getConfigFile:: AKVault Url: " + akvUrl);
-        System.setProperty("akvUrl", akvUrl);
-
+        System.setProperty("AKV_TEST_URL", akvUrl);
+        System.setProperty("AKV_TEST_AUTH_URL", akvUrl);
         // Auth
         mockClient
 //                .withSecure(true)
@@ -62,7 +62,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/mysecret")
+                                .withPath("/test-secret")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -77,7 +77,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/mysecretnotfound")
+                                .withPath("/test-secret-notfound")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -92,7 +92,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/test-poc-key-avio")
+                                .withPath("/test-key")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -107,7 +107,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/test-poc-keynotfound")
+                                .withPath("/test-key-notfound")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -122,7 +122,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/mockcertificate/completed")
+                                .withPath("/test-certificate/completed")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -137,7 +137,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .when(
                         request()
                                 .withMethod("GET")
-                                .withPath("/mockcertificatenotfound/completed")
+                                .withPath("/test-certificate-notfound/completed")
                                 .withQueryStringParameter("api-version", "7.0")
                                 .withHeader("Authorization", "Bearer MOCK_TOKEN")
                 ).respond(
@@ -161,7 +161,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     @Test
-    public void getSecretNotFound() throws Exception {
+    public void SecretNotFoundget() throws Exception {
         try {
             Object payloadValue = flowRunner("getSecretNotFound")
                     .run()

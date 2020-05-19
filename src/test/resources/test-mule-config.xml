@@ -5,30 +5,30 @@
           http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd">
 
     <akv:config name="config" >
-        <akv:connection tenantId="MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="MOCK_SECRET" baseUri="${akvUrl}" />
+        <akv:connection vaultName="MOCK_VAULT" tenantId="MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="MOCK_SECRET" baseUri="MOCK_URI" />
     </akv:config>
 
     <flow name="getSecretSuccess">
-        <akv:get-secret config-ref="config" path="${akvUrl}/secrets/mysecret"/>
+        <akv:get-secret config-ref="config" secretName="test-secret"/>
     </flow>
 
     <flow name="getSecretNotFound">
-        <akv:get-secret config-ref="config" path="${akvUrl}/secrets/mysecretnotfound"/>
+        <akv:get-secret config-ref="config" secretName="test-secret-notfound"/>
     </flow>
 
     <flow name="getKeySuccess" >
-        <akv:get-key config-ref="config" path="${akvUrl}/keys/test-poc-key-avio"/>
+        <akv:get-key config-ref="config" keyName="test-key"/>
     </flow>
 
     <flow name="getKeyNotFound">
-        <akv:get-secret config-ref="config" path="${akvUrl}/keys/test-poc-keynotfound"/>
+        <akv:get-key config-ref="config" keyName="test-key-notfound"/>
     </flow>
 
     <flow name="getCertificateSuccess">
-        <akv:get-certificate config-ref="config" path="${akvUrl}/certificates/mockcertificate"/>
+        <akv:get-certificate config-ref="config" certificateName="test-certificate"/>
     </flow>
 
     <flow name="getCertificateNotFound">
-        <akv:get-certificate config-ref="config" path="${akvUrl}/certificates/mockcertificatenotfound"/>
+        <akv:get-certificate config-ref="config" certificateName="test-certificate-notfound"/>
     </flow>
 </mule>

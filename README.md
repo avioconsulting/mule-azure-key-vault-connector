@@ -28,16 +28,13 @@ Add this dependency to your application pom.xml
 ```
 
 ## Usage
-Sample calls to the key vault.  The `path` attribute is the full URL to retrieve the secret/key/certificate.
+Sample calls to the key vault.  The `secretName`/`keyName`/`certificateName` attribute's are appropriate name of the secret/key/certificate.
 ```
-<akv:get-secret config-ref="config" 
-    path="https://vault-name.vault.azure.net/secrets/my-test-secret"/>
+<akv:get-secret config-ref="config" secretName="test-secret"/>
 
-<akv:get-key config-ref="config" 
-    path="https://vault-name.vault.azure.net/keys/my-test-key"/>
+<akv:get-key config-ref="config" keyName="test-key"/>
 
-<akv:get-certificate config-ref="config" 
-    path="https://vault-name.vault.azure.net/certificates/my-test-certificate"/>
+<akv:get-certificate config-ref="config" certificateName="test-certificate"/>
 ```
 
 ### Configuration
@@ -49,6 +46,12 @@ Sample calls to the key vault.  The `path` attribute is the full URL to retrieve
 |Service account client secret|`password1`|The account client secret.|
 |Timeout for API calls|15000|Defaults to 30000 (30 seconds)|
 
+To find the above configuration values, 
+  * Login to the Azure Portal Account https://portal.azure.com/#home
+  * Go to App Registrations under the Azure services where you can see the list of Apps registered.
+  * Select the required App and click on the overview tab on the left to get the `ClientId` and `TenentId` 
+  * To get the ClientSecret, navigate to home, search for key vault under Azure services, select the Key and go to secrets tab on the left
+  * On the same page, go to overview tab to find the Azure key host name (Shown as DNS Name)
 
 ## Deploying to Exchange
 The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.

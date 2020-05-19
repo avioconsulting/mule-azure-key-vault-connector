@@ -36,9 +36,11 @@ public class AzureClient {
   public static final String AUTH_HEADER = "Authorization";
   public static final String BEARER_PREFIX = "Bearer ";
   public static final Integer DEFAULT_TIMEOUT = 30000;
+  public static final String AZURE_HOST = ".vault.azure.net";
 
 
   private final HttpClient httpClient;
+  private final String vaultName;
   private final String baseUri;
   private final String tenantId;
   private final String clientId;
@@ -48,15 +50,17 @@ public class AzureClient {
 
   /**
    * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
+   * @param vaultName       Azure vault name
    * @param baseUri         Authorization Base URL for Azure
    * @param tenantId        Azure Tenant ID
    * @param clientId        Azure Client ID
    * @param clientSecret    Azure Client Secret
    * @param timeout         Request timeout in ms, default 30000
    */
-  public AzureClient(HttpClient httpClient, String baseUri, String tenantId, String clientId,
+  public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId, String clientId,
       String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
+    this.vaultName = vaultName;
     this.baseUri = baseUri;
     this.tenantId = tenantId;
     this.clientId = clientId;
@@ -79,10 +83,11 @@ public class AzureClient {
 
     String body = mapToUrlParams(params);
     ByteArrayHttpEntity entity = new ByteArrayHttpEntity(body.getBytes(StandardCharsets.UTF_8));
-    HttpRequest request = HttpRequest.builder()
-        .uri(baseUri + tenantId + AUTH_ENDPOINT)
-        .method(HttpConstants.Method.POST)
-        .addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
+
+    HttpRequest request = HttpRequest.builder().
+        uri(getAuthBaseUri() + tenantId + AUTH_ENDPOINT).
+        method(HttpConstants.Method.POST).
+        addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
 
     HttpRequestOptions requestOptions = HttpRequestOptions.builder().responseTimeout(timeout)
         .followsRedirect(false).build();
@@ -133,5 +138,23 @@ public class AzureClient {
     } else {
       return true;
     }
+  }
+
+  public String getHttpBaseUri(){
+    String url = System.getProperty("AKV_TEST_URL");
+    if(url != null && url.length() > 0){
+      LOGGER.warn("Using AKV Test URL: " + url);
+      return url;
+    }
+    return "https://" + vaultName + AZURE_HOST ;
+  }
+
+  public String getAuthBaseUri(){
+    String url = System.getProperty("AKV_TEST_AUTH_URL");
+    if(url != null && url.length() > 0){
+      LOGGER.warn("Using AKV Test Auth URL: " + url);
+      return url;
+    }
+    return baseUri ;
   }
 }

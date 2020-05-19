@@ -13,6 +13,7 @@ import org.mule.runtime.http.api.client.HttpClient;
 public final class AkvConnection {
 
   private HttpClient httpClient;
+  private String vaultName;
   private String baseUri;
   private String tenantId;
   private String clientId;
@@ -24,15 +25,17 @@ public final class AkvConnection {
 
   /**
    * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
+   * @param vaultName       Azure vault name
    * @param baseUri         Authorization Base URL for Azure
    * @param tenantId        Azure Tenant ID
    * @param clientId        Azure Client ID
    * @param clientSecret    Azure Client Secret
    * @param timeout         Request timeout in ms, default 30000
    */
-  public AkvConnection(HttpClient httpClient, String baseUri, String tenantId, String clientId,
+  public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId, String clientId,
       String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
+    this.vaultName = vaultName;
     this.baseUri = baseUri;
     this.tenantId = tenantId;
     this.clientId = clientId;
@@ -51,7 +54,7 @@ public final class AkvConnection {
   }
 
   public void initAkvClient() {
-    client = new AzureKeyVaultClient(httpClient, baseUri, tenantId, clientId, clientSecret,
+    client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret,
         timeout);
   }
 
@@ -81,6 +84,14 @@ public final class AkvConnection {
 
   public void setBaseUri(String baseUri) {
     this.baseUri = baseUri;
+  }
+
+  public String getVaultName() {
+    return vaultName;
+  }
+
+  public void setVaultName(String vaultName) {
+    this.vaultName = vaultName;
   }
 
   public String getTenantId() {
