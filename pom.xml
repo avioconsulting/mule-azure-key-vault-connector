@@ -137,18 +137,23 @@
         </pluginRepository>
     </pluginRepositories>
     <!-- Uncomment this for Exchange deployment -->
-    <!--<distributionManagement>
-        <snapshotRepository>
-            <id>exchange-repository</id>
-            <name>Exchange Repository</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
-            <layout>default</layout>
-        </snapshotRepository>
-        <repository>
-            <id>exchange-repository</id>
-            <name>Exchange Repository</name>
-            <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>-->
+    <profiles>
+        <profile>
+            <id>anypoint</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>exchange-repository</id>
+                    <name>Exchange Repository</name>
+                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+                    <layout>default</layout>
+                </snapshotRepository>
+                <repository>
+                    <id>exchange-repository</id>
+                    <name>Exchange Repository</name>
+                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+                    <layout>default</layout>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>

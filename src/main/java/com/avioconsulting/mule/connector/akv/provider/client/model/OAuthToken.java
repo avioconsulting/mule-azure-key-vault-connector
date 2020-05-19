@@ -55,6 +55,9 @@ public class OAuthToken {
     this.accessToken = accessToken;
   }
 
+  /**
+   * OAuth Expiry.
+   */
   public void setExpiresOn() {
     if (expiresIn != null) {
       this.expiresOn = Instant.now().getEpochSecond() + (expiresIn - 10);
@@ -73,6 +76,11 @@ public class OAuthToken {
         '}';
   }
 
+  /**
+   * Validates the expiry of the authentication.
+   *
+   * @return Boolean Valid token (not expired)
+   */
   public Boolean isValid() {
     Long now = Instant.now().getEpochSecond();
     if (expiresOn == null) {

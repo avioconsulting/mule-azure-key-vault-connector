@@ -23,8 +23,19 @@ public final class AkvConnection {
   private AzureKeyVaultClient client;
 
 
-  public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId, String clientId,
-      String clientSecret, Integer timeout) {
+  /**
+   * Provides an Azure Key Vault connection object for retrieving secrets, keys, and certificates.
+   *
+   * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
+   * @param vaultName       Azure vault name
+   * @param baseUri         Authorization Base URL for Azure
+   * @param tenantId        Azure Tenant ID
+   * @param clientId        Azure Client ID
+   * @param clientSecret    Azure Client Secret
+   * @param timeout         Request timeout in ms, default 30000
+   */
+  public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
+                       String clientId, String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -45,8 +56,8 @@ public final class AkvConnection {
   }
 
   public void initAkvClient() {
-    client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret,
-        timeout);
+    client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId,
+            clientId, clientSecret, timeout);
   }
 
   public Secret getSecret(String path) {

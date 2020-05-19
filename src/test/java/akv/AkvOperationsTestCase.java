@@ -3,7 +3,6 @@ package akv;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Certificate;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
 import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.MockServerClient;
@@ -184,7 +183,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                 .getValue();
         Key key = (Key)payloadValue;
         System.out.println(key);
-        assertThat(key.getKey().getN(), is("mockKey"));
+        assertThat(key.getKey().getRsaModulus(), is("mockKey"));
     }
 
     @Test

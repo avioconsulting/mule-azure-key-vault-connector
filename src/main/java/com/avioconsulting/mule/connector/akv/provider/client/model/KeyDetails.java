@@ -9,16 +9,16 @@ public class KeyDetails {
   private String kid;
 
   @SerializedName(value = "kty")
-  private String kty;
+  private String keyType;
 
   @SerializedName(value = "key_ops")
   private List<String> keyOps;
 
   @SerializedName(value = "n")
-  private String n;
+  private String rsaModulus;
 
   @SerializedName(value = "e")
-  private String e;
+  private String rsaPublicExponent;
 
   @SerializedName(value = "enabled")
   private Boolean enabled;
@@ -40,8 +40,8 @@ public class KeyDetails {
     this.kid = kid;
   }
 
-  public String getKty() {
-    return kty;
+  public String getKeyType() {
+    return keyType;
   }
 
   public List<String> getKeyOps() {
@@ -52,24 +52,24 @@ public class KeyDetails {
     this.keyOps = keyOps;
   }
 
-  public void setKty(String kty) {
-    this.kty = kty;
+  public void setKeyType(String keyType) {
+    this.keyType = keyType;
   }
 
-  public String getN() {
-    return n;
+  public String getRsaModulus() {
+    return rsaModulus;
   }
 
-  public void setN(String n) {
-    this.n = n;
+  public void setRsaModulus(String rsaModulus) {
+    this.rsaModulus = rsaModulus;
   }
 
-  public String getE() {
-    return e;
+  public String getRsaPublicExponent() {
+    return rsaPublicExponent;
   }
 
-  public void setE(String e) {
-    this.e = e;
+  public void setRsaPublicExponent(String rsaPublicExponent) {
+    this.rsaPublicExponent = rsaPublicExponent;
   }
 
   public Boolean getEnabled() {
@@ -110,10 +110,10 @@ public class KeyDetails {
     return "{" +
         "key{" +
         "kid='" + kid + '\'' +
-        ", kty='" + kty + '\'' +
+        ", kty='" + keyType + '\'' +
         ", key_ops='" + keyOps + '\'' +
-        ", n='" + n + '\'' +
-        ", e='" + e + '\'' +
+        ", n='" + rsaModulus + '\'' +
+        ", e='" + rsaPublicExponent + '\'' +
         "}" +
         "attributes{" +
         "enabled=" + enabled + '\'' +

@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
 /**
  * This class (as it's name implies) provides connection instances and the funcionality to
  * disconnect and validate those connections.
- * <p>
- * All connection related parameters (values required in order to create a connection) must be
+ *
+ * <p>All connection related parameters (values required in order to create a connection) must be
  * declared in the connection providers.
- * <p>
- * This particular example is a {@link PoolingConnectionProvider} which declares that connections
+ *
+ * <p>This particular example is a {@link PoolingConnectionProvider} which declares that connections
  * resolved by this provider will be pooled and reused. There are other implementations like {@link
  * CachedConnectionProvider} which lazily creates and caches connections or simply {@link
  * ConnectionProvider} if you want a new connection each time something requires one.
@@ -84,7 +84,8 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
 
   @Override
   public AkvConnection connect() throws ConnectionException {
-    return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
+    return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId,
+            clientSecret, timeout);
   }
 
   @Override

@@ -30,12 +30,18 @@ public class AzureKeyVaultClient extends AzureClient {
   public static final String BASE_CERTIFICATE_PATH = "/certificates/";
   private static final Logger LOGGER = LoggerFactory.getLogger(AzureKeyVaultClient.class);
 
-  public AzureKeyVaultClient(HttpClient httpClient,String vaultName, String baseUri, String tenantId,
-      String clientId, String clientSecret, Integer timeout) {
+  public AzureKeyVaultClient(HttpClient httpClient, String vaultName, String baseUri,
+                             String tenantId, String clientId, String clientSecret,
+                             Integer timeout) {
     super(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
   }
 
-
+  /**
+   * Retrieves a secret out of Azure Key Vault.
+   *
+   * @param secretName    Name of the secret
+   * @return Secret       Object containing the secret and associated metadata
+   */
   public Secret getSecret(String secretName) {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
         .uri(getHttpBaseUri() + BASE_SECRET_PATH + secretName)
@@ -69,6 +75,12 @@ public class AzureKeyVaultClient extends AzureClient {
     }
   }
 
+  /**
+   * Retrieves a key out of Azure Key Vault.
+   *
+   * @param keyName    Name of the key
+   * @return Key       Object containing the key and associated metadata
+   */
   public Key getKey(String keyName) {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
         .uri(getHttpBaseUri() + BASE_KEY_PATH + keyName)
@@ -104,6 +116,12 @@ public class AzureKeyVaultClient extends AzureClient {
     }
   }
 
+  /**
+   * Retrieves a certificate out of Azure Key Vault.
+   *
+   * @param certificateName    Name of the certificate
+   * @return Certificate       Object containing the certificate and associated metadata
+   */
   public Certificate getCertificate(String certificateName) {
 
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
