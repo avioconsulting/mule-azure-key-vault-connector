@@ -43,7 +43,7 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
         String akvUrl = String.format("http://%s:%d/", mockServerRule.getClient().remoteAddress().getHostString(), mockServerRule.getClient().remoteAddress().getPort());
         logger.info("getConfigFile:: AKVault Url: " + akvUrl);
         System.setProperty("AKV_TEST_URL", akvUrl);
-
+        System.setProperty("AKV_TEST_AUTH_URL", akvUrl);
         // Auth
         mockClient
 //                .withSecure(true)

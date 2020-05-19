@@ -46,6 +46,12 @@ Sample calls to the key vault.  The `secretName`/`keyName`/`certificateName` att
 |Service account client secret|`password1`|The account client secret.|
 |Time for API calls|15000|Defaults to 30000 (30 seconds)|
 
+To find the above configuration values, 
+  * Login to the Azure Portal Account https://portal.azure.com/#home
+  * Go to App Registrations under the Azure services where you can see the list of Apps registered.
+  * Select the required App and click on the overview tab on the left to get the `ClientId` and `TenentId` 
+  * To get the ClientSecret, navigate to home, search for key vault under Azure services, select the Key and go to secrets tab on the left
+  * On the same page, go to overview tab to find the Azure key host name (Shown as DNS Name)
 
 ## Deploying to Exchange
 The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.

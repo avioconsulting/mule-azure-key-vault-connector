@@ -132,7 +132,7 @@ public class AzureClient {
 
   public String getHttpBaseUri(){
     String url = System.getProperty("AKV_TEST_URL");
-    if(url != null){
+    if(url != null && url.length() > 0){
       LOGGER.warn("Using AKV Test URL: " + url);
       return url;
     }
@@ -140,9 +140,9 @@ public class AzureClient {
   }
 
   public String getAuthBaseUri(){
-    String url = System.getProperty("AKV_TEST_URL");
-    if(url != null){
-      LOGGER.warn("Using AKV Test URL: " + url);
+    String url = System.getProperty("AKV_TEST_AUTH_URL");
+    if(url != null && url.length() > 0){
+      LOGGER.warn("Using AKV Test Auth URL: " + url);
       return url;
     }
     return baseUri ;
