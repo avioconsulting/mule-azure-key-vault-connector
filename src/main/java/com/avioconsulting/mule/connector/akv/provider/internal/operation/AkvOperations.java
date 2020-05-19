@@ -23,21 +23,21 @@ public class AkvOperations {
   @Throws(AzureKeyVaultErrorTypeProvider.class)
   @MediaType(value = ANY, strict = false)
   public Secret getSecret(@Config AkvConfiguration configuration,
-      @Connection AkvConnection connection, String path) {
-    return connection.getSecret(path);
+      @Connection AkvConnection connection, String secretName) {
+    return connection.getSecret(secretName);
   }
 
   @Throws(AzureKeyVaultErrorTypeProvider.class)
   @MediaType(value = ANY, strict = false)
   public Key getKey(@Config AkvConfiguration configuration, @Connection AkvConnection connection,
-      String path) {
-    return connection.getKey(path);
+      String keyName) {
+    return connection.getKey(keyName);
   }
 
   @Throws(AzureKeyVaultErrorTypeProvider.class)
   @MediaType(value = ANY, strict = false)
   public Certificate getCertificate(@Config AkvConfiguration configuration,
-      @Connection AkvConnection connection, String path) {
-    return connection.getCertificate(path);
+      @Connection AkvConnection connection, String certificateName) {
+    return connection.getCertificate(certificateName);
   }
 }
