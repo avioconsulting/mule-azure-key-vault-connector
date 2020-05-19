@@ -47,6 +47,11 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
   /**
    * A parameter that is always required to be configured.
    */
+
+  @Parameter
+  @DisplayName("Azure Vault Name")
+  private String vaultName;
+
   @Parameter
   @DisplayName("Azure OAuth Base URI")
   @Optional(defaultValue = "https://login.microsoftonline.com/")
@@ -77,10 +82,9 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
   @RefName
   private String configName;
 
-
   @Override
   public AkvConnection connect() throws ConnectionException {
-    return new AkvConnection(httpClient, baseUri, tenantId, clientId, clientSecret, timeout);
+    return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
   }
 
   @Override

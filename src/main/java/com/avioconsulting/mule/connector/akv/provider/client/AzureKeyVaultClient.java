@@ -25,17 +25,20 @@ public class AzureKeyVaultClient extends AzureClient {
   public static final String PARAM_API_VERSION = "api-version";
   public static final String API_VERSION = "7.0";
   public static final String CERTIFICATE_STATUS_PATH = "/completed";
+  public static final String BASE_KEY_PATH = "/keys/";
+  public static final String BASE_SECRET_PATH = "/secrets/";
+  public static final String BASE_CERTIFICATE_PATH = "/certificates/";
   private static final Logger LOGGER = LoggerFactory.getLogger(AzureKeyVaultClient.class);
 
-  public AzureKeyVaultClient(HttpClient httpClient, String baseUri, String tenantId,
+  public AzureKeyVaultClient(HttpClient httpClient,String vaultName, String baseUri, String tenantId,
       String clientId, String clientSecret, Integer timeout) {
-    super(httpClient, baseUri, tenantId, clientId, clientSecret, timeout);
+    super(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
   }
 
 
-  public Secret getSecret(String path) {
+  public Secret getSecret(String secretName) {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(path)
+        .uri(getHttpBaseUri() + BASE_SECRET_PATH + secretName)
         .addQueryParam(PARAM_API_VERSION, API_VERSION)
         .method(HttpConstants.Method.GET).build();
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
@@ -61,14 +64,14 @@ public class AzureKeyVaultClient extends AzureClient {
         }
       }
     } catch (InterruptedException | ExecutionException e) {
-      LOGGER.error("Error retrieving secret at " + path, e);
+      LOGGER.error("Error retrieving secret at " + secretName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }
   }
 
-  public Key getKey(String path) {
+  public Key getKey(String keyName) {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(path)
+        .uri(getHttpBaseUri() + BASE_KEY_PATH + keyName)
         .addQueryParam(PARAM_API_VERSION, API_VERSION)
         .method(HttpConstants.Method.GET)
         .build();
@@ -96,15 +99,15 @@ public class AzureKeyVaultClient extends AzureClient {
         }
       }
     } catch (InterruptedException | ExecutionException e) {
-      LOGGER.error("Error retrieving Key at " + path, e);
+      LOGGER.error("Error retrieving Key at " + keyName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }
   }
 
-  public Certificate getCertificate(String path) {
+  public Certificate getCertificate(String certificateName) {
 
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(path + CERTIFICATE_STATUS_PATH)
+        .uri(getHttpBaseUri() + BASE_CERTIFICATE_PATH + certificateName + CERTIFICATE_STATUS_PATH)
         .addQueryParam(PARAM_API_VERSION, API_VERSION)
         .method(HttpConstants.Method.GET).build();
     LOGGER.info("GetCertificate Request: " + request.toString());
@@ -133,7 +136,7 @@ public class AzureKeyVaultClient extends AzureClient {
         }
       }
     } catch (InterruptedException | ExecutionException e) {
-      LOGGER.error("Error retrieving Certificate at " + path, e);
+      LOGGER.error("Error retrieving Certificate at " + certificateName, e);
       throw new UnknownKeyVaultException(e.getMessage());
     }
   }
