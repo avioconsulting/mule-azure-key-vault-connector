@@ -73,6 +73,7 @@ public class CertificateX509Properties {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateX509Properties{" +
         "subject='" + subject + '\'' +

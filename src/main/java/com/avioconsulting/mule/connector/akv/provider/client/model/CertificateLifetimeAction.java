@@ -28,6 +28,7 @@ public class CertificateLifetimeAction {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateLifetimeAction{" +
         "trigger=" + trigger +

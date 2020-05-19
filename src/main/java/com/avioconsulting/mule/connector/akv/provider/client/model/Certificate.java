@@ -137,6 +137,7 @@ public class Certificate {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "Certificate{" +
         "id='" + id + '\'' +

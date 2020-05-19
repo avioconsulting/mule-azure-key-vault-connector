@@ -16,6 +16,7 @@ public class CertificateSecretProperties {
   }
 
   @Override
+  @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
     return "CertificateSecretProperties{" +
         "contentType='" + contentType + '\'' +
