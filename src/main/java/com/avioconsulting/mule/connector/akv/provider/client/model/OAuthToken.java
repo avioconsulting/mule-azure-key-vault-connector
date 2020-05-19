@@ -56,7 +56,7 @@ public class OAuthToken {
   }
 
   /**
-   * OAuth Expiry
+   * OAuth Expiry.
    */
   public void setExpiresOn() {
     if (expiresIn != null) {
@@ -76,7 +76,9 @@ public class OAuthToken {
   }
 
   /**
-   * @return Boolean Validates the expiry of the authentication
+   * Validates the expiry of the authentication.
+   *
+   * @return Boolean Valid token (not expired)
    */
   public Boolean isValid() {
     Long now = Instant.now().getEpochSecond();

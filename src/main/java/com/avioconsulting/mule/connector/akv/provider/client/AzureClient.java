@@ -49,6 +49,8 @@ public class AzureClient {
   private final Integer timeout;
 
   /**
+   * Provides a client object, used for retrieving entities from Azure Key Vault.
+   *
    * @param httpClient      Mule Client for sending the HTTP Request and receiving the response
    * @param vaultName       Azure vault name
    * @param baseUri         Authorization Base URL for Azure
@@ -57,8 +59,8 @@ public class AzureClient {
    * @param clientSecret    Azure Client Secret
    * @param timeout         Request timeout in ms, default 30000
    */
-  public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId, String clientId,
-      String clientSecret, Integer timeout) {
+  public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
+                     String clientId, String clientSecret, Integer timeout) {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -84,10 +86,10 @@ public class AzureClient {
     String body = mapToUrlParams(params);
     ByteArrayHttpEntity entity = new ByteArrayHttpEntity(body.getBytes(StandardCharsets.UTF_8));
 
-    HttpRequest request = HttpRequest.builder().
-        uri(getAuthBaseUri() + tenantId + AUTH_ENDPOINT).
-        method(HttpConstants.Method.POST).
-        addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
+    HttpRequest request = HttpRequest.builder()
+        .uri(getAuthBaseUri() + tenantId + AUTH_ENDPOINT)
+        .method(HttpConstants.Method.POST)
+        .addHeader(HTTP_CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED).entity(entity).build();
 
     HttpRequestOptions requestOptions = HttpRequestOptions.builder().responseTimeout(timeout)
         .followsRedirect(false).build();
@@ -130,6 +132,11 @@ public class AzureClient {
     return params;
   }
 
+  /**
+   * Validation method that verifies authentication.
+   *
+   * @return Boolean for valid client configuration
+   */
   public boolean isValid() {
     if (!token.isValid()) {
       LOGGER.info("Access Token expired, re-authenticating.");
@@ -140,21 +147,33 @@ public class AzureClient {
     }
   }
 
-  public String getHttpBaseUri(){
+  /**
+   * Builds a base URL for Key Vault HTTP operations.  This value can be overridden using
+   * system property AKV_TEST_URL.
+   *
+   * @return String URL for Key Vault HTTP operations
+   */
+  public String getHttpBaseUri() {
     String url = System.getProperty("AKV_TEST_URL");
-    if(url != null && url.length() > 0){
+    if (url != null && url.length() > 0) {
       LOGGER.warn("Using AKV Test URL: " + url);
       return url;
     }
-    return "https://" + vaultName + AZURE_HOST ;
+    return "https://" + vaultName + AZURE_HOST;
   }
 
-  public String getAuthBaseUri(){
+  /**
+   * Builds a Authentication base URL.  This value can be overridden using system
+   * property AKV_TEST_AUTH_URL.
+   *
+   * @return String URL for Key Vault HTTP operations
+   */
+  public String getAuthBaseUri() {
     String url = System.getProperty("AKV_TEST_AUTH_URL");
-    if(url != null && url.length() > 0){
+    if (url != null && url.length() > 0) {
       LOGGER.warn("Using AKV Test Auth URL: " + url);
       return url;
     }
-    return baseUri ;
+    return baseUri;
   }
 }
