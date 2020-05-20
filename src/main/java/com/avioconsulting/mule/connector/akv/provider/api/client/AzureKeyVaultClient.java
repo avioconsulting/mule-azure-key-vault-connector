@@ -1,18 +1,17 @@
 package com.avioconsulting.mule.connector.akv.provider.api.client;
 
-import com.avioconsulting.mule.connector.akv.provider.api.error.CertificateNotFoundException;
-import com.avioconsulting.mule.connector.akv.provider.api.error.KeyNotFoundException;
-import com.avioconsulting.mule.connector.akv.provider.api.error.SecretNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.KeyVaultError;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.error.CertificateNotFoundException;
+import com.avioconsulting.mule.connector.akv.provider.api.error.KeyNotFoundException;
+import com.avioconsulting.mule.connector.akv.provider.api.error.SecretNotFoundException;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
 import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.HttpConstants;
 import org.mule.runtime.http.api.client.HttpClient;
@@ -58,7 +57,8 @@ public class AzureKeyVaultClient extends AzureClient {
       Integer statusCode = response.getStatusCode();
       if (statusCode == 200) {
         Secret secret = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Secret.class);
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                    Secret.class);
         LOGGER.info(secret.toString());
         return secret;
       } else {
@@ -141,7 +141,8 @@ public class AzureKeyVaultClient extends AzureClient {
       LOGGER.info("Found status code: " + statusCode);
       if (statusCode == 200) {
         Certificate certificate = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Certificate.class);
+            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                    Certificate.class);
         LOGGER.info(certificate.toString());
         return certificate;
       } else {

@@ -3,19 +3,16 @@ package com.avioconsulting.mule.connector.akv.provider.internal.operation;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.ANY;
 
 import com.avioconsulting.mule.connector.akv.provider.api.AkvConfiguration;
-import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorTypeProvider;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorTypeProvider;
 import com.avioconsulting.mule.connector.akv.provider.internal.connection.AkvConnection;
 import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
-
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.ExecutionException;
 
 
 /**

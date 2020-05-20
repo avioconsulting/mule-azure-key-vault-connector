@@ -7,9 +7,6 @@ import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
 import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.io.UnsupportedEncodingException;
-import java.util.concurrent.ExecutionException;
-
 /**
  * This class represents an extension connection just as example (there is no real connection with
  * anything here c:).
@@ -39,7 +36,8 @@ public final class AkvConnection {
    * @param timeout         Request timeout in ms, default 30000
    */
   public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
-                       String clientId, String clientSecret, Integer timeout) {
+                       String clientId, String clientSecret, Integer timeout)
+          throws DefaultMuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -59,7 +57,7 @@ public final class AkvConnection {
     return client != null && client.isValid();
   }
 
-  public void initAkvClient() {
+  public void initAkvClient() throws DefaultMuleException {
     client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId,
             clientId, clientSecret, timeout);
   }

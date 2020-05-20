@@ -1,7 +1,7 @@
 package com.avioconsulting.mule.connector.akv.provider.api.client;
 
-import com.avioconsulting.mule.connector.akv.provider.api.error.AccessDeniedException;
 import com.avioconsulting.mule.connector.akv.provider.api.client.model.OAuthToken;
+import com.avioconsulting.mule.connector.akv.provider.api.error.AccessDeniedException;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
 import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.HttpConstants;
 import org.mule.runtime.http.api.client.HttpClient;
@@ -62,7 +61,8 @@ public class AzureClient {
    * @param timeout         Request timeout in ms, default 30000
    */
   public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
-                     String clientId, String clientSecret, Integer timeout) throws AccessDeniedException, DefaultMuleException {
+                     String clientId, String clientSecret, Integer timeout)
+          throws AccessDeniedException, DefaultMuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -97,15 +97,17 @@ public class AzureClient {
     CompletableFuture<HttpResponse> completable = httpClient.sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
-      // check response status code here.
-      if(response.getStatusCode() == 200) {
+      if (response.getStatusCode() == 200) {
         Gson gson = new Gson();
         token = gson
-                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthToken.class);
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        OAuthToken.class);
         token.setExpiresOn();
         LOGGER.info(token.toString());
       } else {
-        throw new AccessDeniedException("Failed to authenticate.  Authentication service returned status code: " + response.getStatusCode());
+        throw new AccessDeniedException("Failed to authenticate.  "
+                + "Authentication service returned status code: "
+                + response.getStatusCode());
       }
     } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       e.printStackTrace();
@@ -127,7 +129,7 @@ public class AzureClient {
 
   protected String mapToUrlParams(Map<String, Object> map) {
     String params = "";
-    for( Map.Entry<String, Object> entry : map.entrySet()){
+    for (Map.Entry<String, Object> entry : map.entrySet()) {
       if (params.length() > 0) {
         params = params + "&" + entry.getKey() + "=" + entry.getValue().toString();
       } else {
@@ -144,7 +146,7 @@ public class AzureClient {
    */
   public boolean isValid() {
     if (!token.isValid()) {
-      try{
+      try {
         LOGGER.info("Access Token expired, re-authenticating.");
         authenticate();
         return token.isValid();

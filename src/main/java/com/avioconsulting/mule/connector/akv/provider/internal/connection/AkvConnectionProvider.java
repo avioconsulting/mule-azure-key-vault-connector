@@ -6,6 +6,7 @@ import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.connection.PoolingConnectionProvider;
+import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.api.lifecycle.Initialisable;
 import org.mule.runtime.api.lifecycle.Startable;
@@ -84,8 +85,12 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
 
   @Override
   public AkvConnection connect() throws ConnectionException {
-    return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId,
-            clientSecret, timeout);
+    try {
+      return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId,
+              clientSecret, timeout);
+    } catch (DefaultMuleException e) {
+      throw new ConnectionException(e);
+    }
   }
 
   @Override

@@ -103,13 +103,6 @@
             <artifactId>mockserver-client-java</artifactId>
             <version>5.7.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.mule.connectors</groupId>
-            <artifactId>mule-http-connector</artifactId>
-            <version>1.5.11</version>
-            <classifier>mule-plugin</classifier>
-        </dependency>
     </dependencies>
     <repositories>
         <repository>
@@ -150,13 +143,13 @@
                 <snapshotRepository>
                     <id>exchange-repository</id>
                     <name>Exchange Repository</name>
-                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
                     <layout>default</layout>
                 </snapshotRepository>
                 <repository>
                     <id>exchange-repository</id>
                     <name>Exchange Repository</name>
-                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${pom.groupId}/maven</url>
+                    <url>https://maven.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
                     <layout>default</layout>
                 </repository>
             </distributionManagement>
