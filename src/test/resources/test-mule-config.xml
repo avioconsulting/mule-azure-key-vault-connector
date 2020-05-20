@@ -1,0 +1,42 @@
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:akv="http://www.mulesoft.org/schema/mule/akv"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+          http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd">
+
+    <akv:config name="config" >
+        <akv:connection vaultName="MOCK_VAULT" tenantId="MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="MOCK_SECRET" baseUri="MOCK_URI" />
+    </akv:config>
+
+    <akv:config name="invalid_config" >
+        <akv:connection vaultName="MOCK_VAULT" tenantId="INVALID_MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="INVALID_MOCK_SECRET" baseUri="MOCK_URI" />
+    </akv:config>
+
+    <flow name="authDenied">
+        <akv:get-secret config-ref="invalid_config" secretName="test-secret"/>
+    </flow>
+
+    <flow name="getSecretSuccess">
+        <akv:get-secret config-ref="config" secretName="test-secret"/>
+    </flow>
+
+    <flow name="getSecretNotFound">
+        <akv:get-secret config-ref="config" secretName="test-secret-notfound"/>
+    </flow>
+
+    <flow name="getKeySuccess" >
+        <akv:get-key config-ref="config" keyName="test-key"/>
+    </flow>
+
+    <flow name="getKeyNotFound">
+        <akv:get-key config-ref="config" keyName="test-key-notfound"/>
+    </flow>
+
+    <flow name="getCertificateSuccess">
+        <akv:get-certificate config-ref="config" certificateName="test-certificate"/>
+    </flow>
+
+    <flow name="getCertificateNotFound">
+        <akv:get-certificate config-ref="config" certificateName="test-certificate-notfound"/>
+    </flow>
+</mule>
