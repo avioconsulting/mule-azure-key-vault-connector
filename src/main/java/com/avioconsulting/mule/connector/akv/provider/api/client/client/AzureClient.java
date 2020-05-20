@@ -1,6 +1,8 @@
-package com.avioconsulting.mule.connector.akv.provider.client;
+package com.avioconsulting.mule.connector.akv.provider.api.client.client;
 
-import com.avioconsulting.mule.connector.akv.provider.client.model.OAuthToken;
+import com.avioconsulting.mule.connector.akv.provider.api.error.AccessDeniedException;
+import com.avioconsulting.mule.connector.akv.provider.api.error.UnknownKeyVaultException;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.OAuthToken;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -59,7 +61,7 @@ public class AzureClient {
    * @param timeout         Request timeout in ms, default 30000
    */
   public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
-                     String clientId, String clientSecret, Integer timeout) {
+                     String clientId, String clientSecret, Integer timeout) throws AccessDeniedException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -75,7 +77,7 @@ public class AzureClient {
   }
 
 
-  private void authenticate() {
+  private void authenticate() throws AccessDeniedException {
     Map<String, Object> params = new HashMap<>();
     params.put(PARAM_GRANT_TYPE, GRANT_TYPE_CLIENT_CREDENTIALS);
     params.put(PARAM_CLIENT_ID, clientId);
@@ -94,13 +96,19 @@ public class AzureClient {
     CompletableFuture<HttpResponse> completable = httpClient.sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
-      Gson gson = new Gson();
-      token = gson
-          .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthToken.class);
-      token.setExpiresOn();
-      LOGGER.info(token.toString());
+      // check response status code here.
+      if(response.getStatusCode() == 200) {
+        Gson gson = new Gson();
+        token = gson
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthToken.class);
+        token.setExpiresOn();
+        LOGGER.info(token.toString());
+      } else {
+        throw new AccessDeniedException("Failed to authenticate.  Authentication service returned status code: " + response.getStatusCode());
+      }
     } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       e.printStackTrace();
+      throw new UnknownKeyVaultException(e.getMessage());
     }
   }
 

@@ -1,4 +1,4 @@
-package com.avioconsulting.mule.connector.akv.provider.client.model;
+package com.avioconsulting.mule.connector.akv.provider.api.client.client.model;
 
 import com.google.gson.annotations.SerializedName;
 

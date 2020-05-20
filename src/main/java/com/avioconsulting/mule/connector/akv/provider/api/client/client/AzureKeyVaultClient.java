@@ -1,13 +1,13 @@
-package com.avioconsulting.mule.connector.akv.provider.client;
+package com.avioconsulting.mule.connector.akv.provider.api.client.client;
 
 import com.avioconsulting.mule.connector.akv.provider.api.error.CertificateNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.KeyNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.SecretNotFoundException;
 import com.avioconsulting.mule.connector.akv.provider.api.error.UnknownKeyVaultException;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.client.model.KeyVaultError;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Certificate;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Key;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.KeyVaultError;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Secret;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -72,6 +72,7 @@ public class AzureKeyVaultClient extends AzureClient {
       }
     } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       LOGGER.error("Error retrieving secret at " + secretName, e);
+      // rethrow error
       throw new UnknownKeyVaultException(e.getMessage());
     }
   }

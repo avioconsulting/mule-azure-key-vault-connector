@@ -1,9 +1,10 @@
 package com.avioconsulting.mule.connector.akv.provider.internal.connection;
 
-import com.avioconsulting.mule.connector.akv.provider.client.AzureKeyVaultClient;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.AzureKeyVaultClient;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Certificate;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Key;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Secret;
+import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.http.api.client.HttpClient;
 
 /**

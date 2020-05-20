@@ -1,8 +1,8 @@
-package com.avioconsulting.mule.connector.akv.provider.client.model;
+package com.avioconsulting.mule.connector.akv.provider.api.client.client.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class EntityAttributes {
+public class SecretAttributes {
 
   @SerializedName(value = "created")
   private Long created;
@@ -73,7 +73,7 @@ public class EntityAttributes {
   @Override
   @SuppressWarnings("checkstyle:OperatorWrap")
   public String toString() {
-    return "EntityAttributes{" +
+    return "SecretAttributes{" +
         "created=" + created +
         ", enabled=" + enabled +
         ", expiry=" + expiry +

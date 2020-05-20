@@ -4,9 +4,9 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.ANY;
 
 import com.avioconsulting.mule.connector.akv.provider.api.AkvConfiguration;
 import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorTypeProvider;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Certificate;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Key;
+import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Secret;
 import com.avioconsulting.mule.connector.akv.provider.internal.connection.AkvConnection;
 import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.param.Config;
