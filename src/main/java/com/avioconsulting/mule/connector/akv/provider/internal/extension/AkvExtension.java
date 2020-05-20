@@ -2,6 +2,7 @@ package com.avioconsulting.mule.connector.akv.provider.internal.extension;
 
 import com.avioconsulting.mule.connector.akv.provider.api.AkvConfiguration;
 import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorType;
+import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
@@ -13,7 +14,7 @@ import org.mule.runtime.extension.api.annotation.error.ErrorTypes;
  * providers, operations and sources are going to be declared.
  */
 @Xml(prefix = "akv")
-@Extension(name = "Akv")
+@Extension(name = "Azure Key Vault", vendor = "AVIO Consulting")
 @ErrorTypes(AzureKeyVaultErrorType.class)
 @Configurations(AkvConfiguration.class)
 public class AkvExtension {
