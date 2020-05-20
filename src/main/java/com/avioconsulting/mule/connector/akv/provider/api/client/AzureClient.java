@@ -1,13 +1,16 @@
-package com.avioconsulting.mule.connector.akv.provider.client;
+package com.avioconsulting.mule.connector.akv.provider.api.client;
 
-import com.avioconsulting.mule.connector.akv.provider.client.model.OAuthToken;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.OAuthToken;
+import com.avioconsulting.mule.connector.akv.provider.api.error.AccessDeniedException;
 import com.google.gson.Gson;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.HttpConstants;
 import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpRequestOptions;
@@ -58,7 +61,8 @@ public class AzureClient {
    * @param timeout         Request timeout in ms, default 30000
    */
   public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
-                     String clientId, String clientSecret, Integer timeout) {
+                     String clientId, String clientSecret, Integer timeout)
+          throws AccessDeniedException, DefaultMuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -74,7 +78,7 @@ public class AzureClient {
   }
 
 
-  private void authenticate() {
+  private void authenticate() throws DefaultMuleException {
     Map<String, Object> params = new HashMap<>();
     params.put(PARAM_GRANT_TYPE, GRANT_TYPE_CLIENT_CREDENTIALS);
     params.put(PARAM_CLIENT_ID, clientId);
@@ -93,15 +97,21 @@ public class AzureClient {
     CompletableFuture<HttpResponse> completable = httpClient.sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
-      Gson gson = new Gson();
-      token = gson
-          .fromJson(new InputStreamReader(response.getEntity().getContent()), OAuthToken.class);
-      token.setExpiresOn();
-      LOGGER.info(token.toString());
-    } catch (InterruptedException e) {
+      if (response.getStatusCode() == 200) {
+        Gson gson = new Gson();
+        token = gson
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        OAuthToken.class);
+        token.setExpiresOn();
+        LOGGER.info(token.toString());
+      } else {
+        throw new AccessDeniedException("Failed to authenticate.  "
+                + "Authentication service returned status code: "
+                + response.getStatusCode());
+      }
+    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
       e.printStackTrace();
-    } catch (ExecutionException e) {
-      e.printStackTrace();
+      throw new DefaultMuleException(e.getMessage());
     }
   }
 
@@ -119,11 +129,11 @@ public class AzureClient {
 
   protected String mapToUrlParams(Map<String, Object> map) {
     String params = "";
-    for (String k : map.keySet()) {
+    for (Map.Entry<String, Object> entry : map.entrySet()) {
       if (params.length() > 0) {
-        params = params + "&" + k + "=" + map.get(k).toString();
+        params = params + "&" + entry.getKey() + "=" + entry.getValue().toString();
       } else {
-        params = k + "=" + map.get(k).toString();
+        params = entry.getKey() + "=" + entry.getValue().toString();
       }
     }
     return params;
@@ -136,9 +146,13 @@ public class AzureClient {
    */
   public boolean isValid() {
     if (!token.isValid()) {
-      LOGGER.info("Access Token expired, re-authenticating.");
-      authenticate();
-      return token.isValid();
+      try {
+        LOGGER.info("Access Token expired, re-authenticating.");
+        authenticate();
+        return token.isValid();
+      } catch (DefaultMuleException e) {
+        return false;
+      }
     } else {
       return true;
     }

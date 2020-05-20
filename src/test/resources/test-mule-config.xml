@@ -8,6 +8,14 @@
         <akv:connection vaultName="MOCK_VAULT" tenantId="MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="MOCK_SECRET" baseUri="MOCK_URI" />
     </akv:config>
 
+    <akv:config name="invalid_config" >
+        <akv:connection vaultName="MOCK_VAULT" tenantId="INVALID_MOCK_TENANT" clientId="MOCK_CLIENT_ID" clientSecret="INVALID_MOCK_SECRET" baseUri="MOCK_URI" />
+    </akv:config>
+
+    <flow name="authDenied">
+        <akv:get-secret config-ref="invalid_config" secretName="test-secret"/>
+    </flow>
+
     <flow name="getSecretSuccess">
         <akv:get-secret config-ref="config" secretName="test-secret"/>
     </flow>
