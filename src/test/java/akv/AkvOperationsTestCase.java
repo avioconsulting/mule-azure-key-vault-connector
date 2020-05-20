@@ -1,8 +1,8 @@
 package akv;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.MockServerClient;

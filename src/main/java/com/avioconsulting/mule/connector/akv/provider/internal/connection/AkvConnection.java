@@ -1,11 +1,14 @@
 package com.avioconsulting.mule.connector.akv.provider.internal.connection;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.AzureKeyVaultClient;
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.api.client.client.model.Secret;
-import org.mule.runtime.extension.api.annotation.param.Connection;
+import com.avioconsulting.mule.connector.akv.provider.api.client.AzureKeyVaultClient;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.client.HttpClient;
+
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This class represents an extension connection just as example (there is no real connection with
@@ -61,15 +64,15 @@ public final class AkvConnection {
             clientId, clientSecret, timeout);
   }
 
-  public Secret getSecret(String path) {
+  public Secret getSecret(String path) throws DefaultMuleException {
     return client.getSecret(path);
   }
 
-  public Key getKey(String path) {
+  public Key getKey(String path) throws DefaultMuleException {
     return client.getKey(path);
   }
 
-  public Certificate getCertificate(String path) {
+  public Certificate getCertificate(String path) throws DefaultMuleException {
     return client.getCertificate(path);
   }
 
