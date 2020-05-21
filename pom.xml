@@ -10,10 +10,10 @@
     <packaging>mule-extension</packaging>
     <name>MuleSoft Azure Key Vault Connector</name>
     <properties>
-        <muleSchedulerServiceVersion>1.2.0</muleSchedulerServiceVersion>
-        <muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
-	    <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
-	    <mavenCompilerVersion>3.8.1</mavenCompilerVersion>
+		<muleSchedulerServiceVersion>1.2.0</muleSchedulerServiceVersion>
+		<muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
+		<maven.site.plugin.version>3.9.0</maven.site.plugin.version>
+		<mavenCompilerVersion>3.8.1</mavenCompilerVersion>
     </properties>
 
     <parent>
@@ -135,10 +135,9 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-    <!-- Uncomment this for Exchange deployment -->
     <profiles>
         <profile>
-            <id>anypoint</id>
+            <id>exchange</id>
             <distributionManagement>
                 <snapshotRepository>
                     <id>exchange-repository</id>
@@ -154,5 +153,30 @@
                 </repository>
             </distributionManagement>
         </profile>
+		<profile>
+			<id>AVIO</id>
+			<distributionManagement>
+				<repository>
+					<id>deploy-releases</id>
+					<name>avio-releases</name>
+					<url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
+				</repository>
+				<snapshotRepository>
+					<id>deploy-snapshots</id>
+					<name>avio-snapshots</name>
+					<url>https://devops.avioconsulting.com/nexus/repository/avio-snapshots/</url>
+				</snapshotRepository>   
+			</distributionManagement>
+		</profile>
+		<profile>
+			<id>github</id>
+			<distributionManagement>
+				<repository>
+					<id>github</id>
+					<name>GitHub OWNER Apache Maven Packages</name>
+					<url>https://maven.pkg.github.com/avioconsulting/mule-azure-key-vault-connector</url>
+				</repository>
+			</distributionManagement>
+		</profile>
     </profiles>
 </project>
