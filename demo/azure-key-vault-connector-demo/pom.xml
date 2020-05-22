@@ -12,9 +12,9 @@
     <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
 		<app.runtime>4.2.2</app.runtime>
 		<mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
+        <akvconnectorVersion>1.1.0-SNAPSHOT</akvconnectorVersion>
 	</properties>
 
 	<build>
@@ -52,7 +52,7 @@
         <dependency>
         		<groupId>com.avioconsulting.mule.connector</groupId>
 			<artifactId>mule-azure-key-vault-connector</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${akvconnectorVersion}</version>
 			<classifier>mule-plugin</classifier>
         </dependency>
     </dependencies>
