@@ -1,0 +1,34 @@
+#%RAML 1.0
+title: akv-mule-api
+baseUri: http://localhost:8081/
+description: "This is a integration test demo api for azure key vault connector"
+version: v1
+  
+/key:
+  get:
+    description: "Method will return the key value"
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include examples/keys/getKeyResponse.json
+
+/secret:
+  description: "Method will return the Secret value"
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include examples/secrets/getSecretResponse.json
+/certificate:
+  description: "Method will return the Certificate value"
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include examples/certificates/getCertificateResponse.json
