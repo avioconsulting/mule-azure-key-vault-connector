@@ -1,0 +1,22 @@
+{
+    "key": {
+        "kid": "https://akv-mule-integration-key.vault.azure.net/keys/akv-mule-key/bd721abd5e054d9db10cdf15bb6602b2",
+        "kty": "RSA",
+        "key_ops": [
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey",
+            "encrypt",
+            "decrypt"
+        ],
+        "n": "5O0Yekjv4fDPb1FTYBSnMGLoUjR7oFejsIC1DQxopSTyh57q_OSqNOMJ_bb_T5TnuYZON1ImuZGgi5EYhss1D_GFUSFM_IOAFidhP5m_wFEhSuFNuEHqxA-0WfJOo5vcrF2K2KHQbuJsKHht_xeENJ5DDX9rku6yFVvPjnJtYXO3zsMeGLHp4a8YgKB_f-E5ItYxYTVeAaLMntNmIVD022-uLFxTNMsEzTxgJULq8rwPBD_ug_-_mylPdOcwBt0Gvu4DMs0pP4zHpa-IS_gewWqQ1MQFGQPc3YRkcFOdfREqjK3Zubm616lWWafLEOOQyDyqpAUbdeLN4jgMOOsYQQ",
+        "e": "AQAB"
+    },
+    "attributes": {
+        "enabled": true,
+        "created": 1590073158,
+        "updated": 1590073158,
+        "recoveryLevel": "Recoverable+Purgeable"
+    }
+}
