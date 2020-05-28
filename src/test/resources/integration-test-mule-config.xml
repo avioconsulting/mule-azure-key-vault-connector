@@ -1,0 +1,22 @@
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:akv="http://www.mulesoft.org/schema/mule/akv"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+          http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd">
+
+    <akv:config name="config" >
+        <akv:connection vaultName="akv-mule-integration-key" tenantId="cb305f69-a885-4c50-8f0e-1aa14f9b4fa0" clientId="ba570879-dd92-4560-9a10-594f3bc62793" clientSecret="6Z7C8Smx631By.a01F.YTt4-M993H_c4-6" />
+    </akv:config>
+
+    <flow name="getKeyTest" >
+        <akv:get-key config-ref="config" keyName="${AKV_TEST_KEY_NAME}"/>
+    </flow>
+
+    <flow name="getSecretTest" >
+        <akv:get-secret config-ref="config" secretName="${AKV_TEST_SECRET_NAME}"/>
+    </flow>
+
+    <flow name="getCertificateTest" >
+        <akv:get-certificate config-ref="config" certificateName="${AKV_TEST_CERTIFICATE_NAME}"/>
+    </flow>
+</mule>
