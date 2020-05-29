@@ -35,7 +35,8 @@ curl GET 'http://localhost:8081/api/certificate?certName=akv-mule-integration-ce
 
 ### Note
 
-pass the clientId, ClientSecret and tenantId as arguments while deploying the application
+Pass clientId, clientSecret and tenantId as arguments while deploying the application
 
 to deploy the application, use mvn clean deploy -DclientId=`xxxxxxxxxxxxxxx` -DclientSecret=`xxxxxxxxxxxxxxx` 
 -DtenantId=`xxxxxxxxxxxxxxx`
+
