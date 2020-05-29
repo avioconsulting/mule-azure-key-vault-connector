@@ -53,6 +53,12 @@ To find the above configuration values,
   * To get the ClientSecret, navigate to home, search for key vault under Azure services, select the Key and go to secrets tab on the left
   * On the same page, go to overview tab to find the Azure key host name (Shown as DNS Name)
 
+### To run the Test cases 
+
+To run the test cases, use `mvn clean test -DAZURE_CLIENT_ID=xxxxxxxxxxxxx -DAZURE_CLIENT_SECRET=xxxxxxxxxxxxx -DAZURE_TENANT_ID=xxxxxxxxxxxxx -DAZURE_VAULT_NAME=xxxxxxxxxxxxx`
+
+* replace the `-DAZURE_CLIENT_ID`, `-DAZURE_CLIENT_SECRET` `-DAZURE_TENANT_ID` and `-DAZURE_VAULT_NAME` with correct values before running the command.
+
 ## Deploying to Exchange
 The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.
 > Shamelessly stolen from Manik Mager's [blog post](https://javastreets.com/blog/publish-connectors-to-anypoint-exchange.html)

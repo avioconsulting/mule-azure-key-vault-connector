@@ -16,22 +16,26 @@ Open the demo application (Azure-key-vault-connector-demo) with Anypoint Studio 
 
 ### Executing get-key-flow
 
-Execute the following to test the Get Key component
+Execute the following to test the Get Key component. change the keyName parameter to get required key.
 
-curl GET 'http://localhost:8081/api/key'
+curl GET 'http://localhost:8081/api/key?keyName=akv-mule-key'
 
 ### Executing get-secret-flow
 
-Execute the following to test the Get Secret component
+Execute the following to test the Get Secret component. change the secretName parameter to get required secret.
 
-curl GET 'http://localhost:8081/api/secret'
+curl GET 'http://localhost:8081/api/secret?secretName=akv-mule-secret'
 
 ### Executing get-certificate-flow
 
-Execute the following to test the Get Certificate component
+Execute the following to test the Get Certificate component. change the certName parameter to get required certificate
 
-curl GET 'http://localhost:8081/api/certificate'
+
+curl GET 'http://localhost:8081/api/certificate?certName=akv-mule-integration-cert'
 
 ### Note
 
 pass the clientId, ClientSecret and tenantId as arguments while deploying the application
+
+to deploy the application, use mvn clean deploy -DclientId=`xxxxxxxxxxxxxxx` -DclientSecret=`xxxxxxxxxxxxxxx` 
+-DtenantId=`xxxxxxxxxxxxxxx`
