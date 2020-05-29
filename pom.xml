@@ -14,8 +14,7 @@
         <muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
 	    <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
 	    <mavenCompilerVersion>3.8.1</mavenCompilerVersion>
-        <azureIdentityTestVersion>1.0.4</azureIdentityTestVersion>
-        <azureIdentityCompileVersion>1.0.6</azureIdentityCompileVersion>
+        <azureIdentityVersion>1.0.6</azureIdentityVersion>
     </properties>
 
     <parent>
@@ -113,7 +112,7 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
-            <version>${azureIdentityCompileVersion}</version>
+            <version>${azureIdentityVersion}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -132,7 +131,7 @@
         <dependency>
             <groupId>com.azure</groupId>
             <artifactId>azure-identity</artifactId>
-            <version>${azureIdentityTestVersion}</version>
+            <version>${azureIdentityVersion}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

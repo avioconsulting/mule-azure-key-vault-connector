@@ -46,10 +46,22 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     private static void setGlobals(){
-        System.setProperty("AZURE_CLIENT_ID", System.getProperty("azure.client.id"));
-        System.setProperty("AZURE_CLIENT_SECRET", System.getProperty("azure.client.secret"));
-        System.setProperty("AZURE_TENANT_ID", System.getProperty("azure.tenant.id"));
-        System.setProperty("AZURE_VAULT_NAME", System.getProperty("azure.vault.name"));
+        String azureClientId = System.getProperty("azure.client.id");
+        if(azureClientId != null && !azureClientId.isEmpty()) {
+            System.setProperty("AZURE_CLIENT_ID", azureClientId);
+        }
+        String azureClientSecret = System.getProperty("azure.client.secret");
+        if(azureClientSecret != null && !azureClientSecret.isEmpty()) {
+            System.setProperty("AZURE_CLIENT_SECRET", azureClientSecret);
+        }
+        String azureTenantId = System.getProperty("azure.tenant.id");
+        if(azureTenantId != null && !azureTenantId.isEmpty()) {
+            System.setProperty("AZURE_TENANT_ID", azureTenantId);
+        }
+        String azureVaultName = System.getProperty("azure.vault.name");
+        if(azureVaultName != null && !azureVaultName.isEmpty()) {
+            System.setProperty("AZURE_VAULT_NAME", azureVaultName);
+        }
         System.setProperty("akv.test.key.name", getKeyName());
         System.setProperty("akv.test.secret.name", getSecretName());
         System.setProperty("akv.test.secret.value", getSecretValue());
