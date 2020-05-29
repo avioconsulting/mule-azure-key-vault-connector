@@ -9,14 +9,14 @@
     </akv:config>
 
     <flow name="getKeyTest" >
-        <akv:get-key config-ref="config" keyName="${AKV_TEST_KEY_NAME}"/>
+        <akv:get-key config-ref="config" keyName="${akv.test.key.name}"/>
     </flow>
 
     <flow name="getSecretTest" >
-        <akv:get-secret config-ref="config" secretName="${AKV_TEST_SECRET_NAME}"/>
+        <akv:get-secret config-ref="config" secretName="${akv.test.secret.name}"/>
     </flow>
 
     <flow name="getCertificateTest" >
-        <akv:get-certificate config-ref="config" certificateName="${AKV_TEST_CERTIFICATE_NAME}"/>
+        <akv:get-certificate config-ref="config" certificateName="${akv.test.certificate.name}"/>
     </flow>
 </mule>

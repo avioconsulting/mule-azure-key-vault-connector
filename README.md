@@ -55,9 +55,9 @@ To find the above configuration values,
 
 ### To run the Test cases 
 
-To run the test cases, use `mvn clean test -DAZURE_CLIENT_ID=xxxxxxxxxxxxx -DAZURE_CLIENT_SECRET=xxxxxxxxxxxxx -DAZURE_TENANT_ID=xxxxxxxxxxxxx -DAZURE_VAULT_NAME=xxxxxxxxxxxxx`
+To run the test cases, use `mvn clean test -Dazure.client.id=xxxxxxxxxxxxx -Dazure.client.secret=xxxxxxxxxxxxx -Dazure.tenant.id=xxxxxxxxxxxxx -Dazure.vault.name=xxxxxxxxxxxxx`
 
-* replace the `-DAZURE_CLIENT_ID`, `-DAZURE_CLIENT_SECRET` `-DAZURE_TENANT_ID` and `-DAZURE_VAULT_NAME` with correct values before running the command.
+* replace the `-Dazure.client.id`, `-Dazure.client.secret` `-Dazure.tenant.id` and `-Dazure.vault.name` with correct values before running the command.
 
 ## Deploying to Exchange
 The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.
