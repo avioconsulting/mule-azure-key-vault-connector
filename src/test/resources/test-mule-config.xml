@@ -39,4 +39,20 @@
     <flow name="getCertificateNotFound">
         <akv:get-certificate config-ref="config" certificateName="test-certificate-notfound"/>
     </flow>
+
+    <flow name="encryptKeySuccess">
+        <akv:encrypt-key config-ref="config" keyName="test-encrypt-key" alg="RSA1_5" value="firstEncryptMule1Testing"/>
+    </flow>
+
+    <flow name="encryptKeyNotFound">
+        <akv:encrypt-key config-ref="config" keyName="test-encrypt-key-notfound" alg="RSA1_5" value="firstEncryptMule1Testing"/>
+    </flow>
+
+    <flow name="decryptKeySuccess">
+        <akv:decrypt-key config-ref="config" keyName="test-decrypt-key" alg="RSA1_5" value="firstDecryptMule1Testing"/>
+    </flow>
+
+    <flow name="decryptKeyNotFound">
+        <akv:decrypt-key config-ref="config" keyName="test-decrypt-key-notfound" alg="RSA1_5" value="firstDecryptMule1Testing"/>
+    </flow>
 </mule>

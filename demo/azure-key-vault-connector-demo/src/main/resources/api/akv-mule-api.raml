@@ -3,7 +3,7 @@ title: akv-mule-api
 baseUri: http://localhost:8081/
 description: "This is a integration test demo api for azure key vault connector"
 version: v1
-  
+
 /key:
   get:
     description: "Method will return the key value"
@@ -32,3 +32,23 @@ version: v1
           application/json:
             examples:
               output: !include examples/certificates/getCertificateResponse.json
+
+/encrypt:
+  description: "Method will return the Encrypted value of a key"
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include examples/encrypt/getEncryptResponse.json
+
+/decrypt:
+  description: "Method will return the Decrypted value of a key"
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            examples:
+              output: !include examples/decrypt/getDecryptResponse.json

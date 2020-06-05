@@ -16,6 +16,13 @@ Link to official documentation.  [Azure - Get Key](https://docs.microsoft.com/en
 This operation retrieves data about a specific certificate.  
 Link to official documentation.  [Azure - Get Certificate](https://docs.microsoft.com/en-us/rest/api/keyvault/getcertificate/getcertificate])
 
+### Encrypt
+This operation encrypts the value of a key provided.
+Link to official documentation. [Azure - Encrypt](https://docs.microsoft.com/en-us/rest/api/keyvault/encrypt/encrypt)
+
+### Decrypt
+This operation decrypts the value of a key provided.
+Link to official documentation. [Azure -Decrypt](https://docs.microsoft.com/en-us/rest/api/keyvault/decrypt/decrypt)
 
 ## Dependency
 Add this dependency to your application pom.xml
