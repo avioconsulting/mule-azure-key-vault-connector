@@ -1,8 +1,6 @@
 package akv;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.MockServerClient;
@@ -30,6 +28,10 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
     private static String KEY_NOT_FOUND_RESPONSE = "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) test-poc-key-avio1 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}";
     private static String GET_CERT_SUCCESS_RESPONSE = "{\"id\":\"https://avioconsulting.vault.azure.net/certificates/mockcertificate/42c2dd8101a34b9f93abe3d59ac72c5a\",\"kid\":\"https://avioconsulting.vault.azure.net/keys/mockcertificate/42c2dd8101a34b9f93abe3d59ac72c5a\",\"sid\":\"https://avioconsulting.vault.azure.net/secrets/mockcertificate/42c2dd8101a34b9f93abe3d59ac72c5a\",\"x5t\":\"Q8V35BLaOifkjMA-EBLhtskgpmQ\",\"cer\":\"MOCK_CERT\",\"attributes\":{\"enabled\":true,\"nbf\":1589301357,\"exp\":1620837957,\"created\":1589301957,\"updated\":1589301957,\"recoveryLevel\":\"Recoverable+Purgeable\"},\"policy\":{\"id\":\"https://avioconsulting.vault.azure.net/certificates/mockcertificate/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"CN=*.microsoft.com\",\"sans\":{\"dns_names\":[\"onedrive.microsoft.com\",\"xbox.microsoft.com\"]},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1589301942,\"updated\":1589301942}},\"pending\":{\"id\":\"https://avioconsulting.vault.azure.net/certificates/mockcertificate/pending\"}}";
     private static String CERT_NOT_FOUND_RESPONSE = "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) mockcertificatenotfound was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}";
+    private static String ENCRYPT_KEY_SUCCESS_RESPONSE = "{\"kid\":\"MOCK_KID\",\"value\":\"MOCK_VALUE\"}";
+    private static String ENCRYPT_KEY_NOT_FOUND = "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) akv-mule-key1 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}";
+    private static String DECRYPT_KEY_SUCCESS_RESPONSE = "{\"kid\":\"https://akv-mule-integration-key.vault.azure.net/keys/akv-mule-key/bd721abd5e054d9db10cdf15bb6602b2\",\"value\":\"MOCK_VALUE\"}";
+    private static String DECRYPT_KEY_NOT_FOUND = "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) akv-mule-key1 was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}";
 
     @Rule
     public MockServerRule mockServerRule = new MockServerRule(this);
@@ -160,6 +162,66 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
                         .withHeader("Content-Type", "application/json")
                         .withBody(CERT_NOT_FOUND_RESPONSE)
         );
+
+        //mock success Encrypt Key
+        mockClient
+                .when(
+                        request()
+                                .withMethod("POST")
+                                .withPath("/test-encrypt-key/encrypt")
+                                .withQueryStringParameter("api-version", "7.0")
+                                .withHeader("Authorization", "Bearer MOCK_TOKEN")
+                ).respond(
+                response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(ENCRYPT_KEY_SUCCESS_RESPONSE)
+        );
+
+        //mock Encrypt Key Not Found
+        mockClient
+                .when(
+                        request()
+                                .withMethod("POST")
+                                .withPath("/test-encrypt-key-notfound/encrypt")
+                                .withQueryStringParameter("api-version", "7.0")
+                                .withHeader("Authorization", "Bearer MOCK_TOKEN")
+                ).respond(
+                response()
+                        .withStatusCode(404)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(ENCRYPT_KEY_NOT_FOUND)
+        );
+
+        //mock success Decrypt Key
+        mockClient
+                .when(
+                        request()
+                                .withMethod("POST")
+                                .withPath("/test-decrypt-key/decrypt")
+                                .withQueryStringParameter("api-version", "7.0")
+                                .withHeader("Authorization", "Bearer MOCK_TOKEN")
+                ).respond(
+                response()
+                        .withStatusCode(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(DECRYPT_KEY_SUCCESS_RESPONSE)
+        );
+
+        //mock Decrypt Key Not Found
+        mockClient
+                .when(
+                        request()
+                                .withMethod("POST")
+                                .withPath("/test-decrypt-key-notfound/decrypt")
+                                .withQueryStringParameter("api-version", "7.0")
+                                .withHeader("Authorization", "Bearer MOCK_TOKEN")
+                ).respond(
+                response()
+                        .withStatusCode(404)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(DECRYPT_KEY_NOT_FOUND)
+        );
         return "test-mule-config.xml";
     }
 
@@ -244,6 +306,58 @@ public class AkvOperationsTestCase extends MuleArtifactFunctionalTestCase {
     public void getCertNotFound() throws Exception {
         try {
             Object payloadValue = flowRunner("getCertificateNotFound")
+                    .run()
+                    .getMessage()
+                    .getPayload()
+                    .getValue();
+            fail("Exception not thrown.");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString("was not found in this key vault."));
+        }
+    }
+
+    @Test
+    public void encryptKeySuccess() throws Exception {
+        Object payloadValue = flowRunner("encryptKeySuccess")
+                .run()
+                .getMessage()
+                .getPayload()
+                .getValue();
+        Encrypt encrypt = (Encrypt) payloadValue;
+        System.out.println(encrypt);
+        assertThat(encrypt.getKid(), is("MOCK_KID"));
+    }
+
+    @Test
+    public void encryptKeyNotFound() throws Exception {
+        try {
+            Object payloadValue = flowRunner("encryptKeyNotFound")
+                    .run()
+                    .getMessage()
+                    .getPayload()
+                    .getValue();
+            fail("Exception not thrown.");
+        } catch (Exception e) {
+            assertThat(e.getMessage(), containsString("was not found in this key vault."));
+        }
+    }
+
+    @Test
+    public void decryptKeySuccess() throws Exception {
+        Object payloadValue = flowRunner("decryptKeySuccess")
+                .run()
+                .getMessage()
+                .getPayload()
+                .getValue();
+        Decrypt decrypt = (Decrypt) payloadValue;
+        System.out.println(decrypt);
+        assertThat(decrypt.getValue(), is("MOCK_VALUE"));
+    }
+
+    @Test
+    public void decryptKeyNotFound() throws Exception {
+        try {
+            Object payloadValue = flowRunner("decryptKeyNotFound")
                     .run()
                     .getMessage()
                     .getPayload()

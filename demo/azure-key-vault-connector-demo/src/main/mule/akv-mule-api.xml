@@ -11,7 +11,7 @@
             </http:error-response>
         </http:listener>
         <logger level="INFO" doc:name="INFO start" doc:id="4f4adda8-b56a-466e-8d06-900b0c84920f" message='#["Start API Call"]'/>
-		<apikit:router config-ref="akv-mule-api-config" />
+        <apikit:router config-ref="akv-mule-api-config" />
         <error-handler>
             <on-error-propagate type="APIKIT:BAD_REQUEST">
                 <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
@@ -94,12 +94,18 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\certificate:akv-mule-api-config">
-		<flow-ref doc:name="get-certificate" doc:id="ab507892-215d-458b-ad40-6cb6c6842f29" name="get-certificate"/>
+        <flow-ref doc:name="get-certificate" doc:id="ab507892-215d-458b-ad40-6cb6c6842f29" name="get-certificate"/>
     </flow>
     <flow name="get:\key:akv-mule-api-config">
-		<flow-ref doc:name="get-key" doc:id="ca3e9b38-adc5-45b9-9f61-990ef14ec8f1" name="get-key"/>
+        <flow-ref doc:name="get-key" doc:id="ca3e9b38-adc5-45b9-9f61-990ef14ec8f1" name="get-key"/>
     </flow>
     <flow name="get:\secret:akv-mule-api-config">
         <flow-ref doc:name="get-secret" doc:id="7a9c8642-40af-4fea-b6a5-57dee7108565" name="get-secret"/>
+    </flow>
+    <flow name="get:\encrypt:akv-mule-api-config">
+        <flow-ref doc:name="encrypt-key" doc:id="ce2131b8-1fc6-4542-9440-6f7572aedb01" name="encrypt-key"/>
+    </flow>
+    <flow name="get:\decrypt:akv-mule-api-config">
+        <flow-ref doc:name="decrypt-key" doc:id="9ce5804c-6b10-4f1e-8e3a-1d6aa655d5cf" name="decrypt-key"/>
     </flow>
 </mule>

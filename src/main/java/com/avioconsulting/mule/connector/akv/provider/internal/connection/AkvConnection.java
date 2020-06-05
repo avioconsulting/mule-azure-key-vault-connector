@@ -1,9 +1,7 @@
 package com.avioconsulting.mule.connector.akv.provider.internal.connection;
 
 import com.avioconsulting.mule.connector.akv.provider.api.client.AzureKeyVaultClient;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
 import org.mule.runtime.api.exception.DefaultMuleException;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -72,6 +70,14 @@ public final class AkvConnection {
 
   public Certificate getCertificate(String path) throws DefaultMuleException {
     return client.getCertificate(path);
+  }
+
+  public Encrypt encryptKey(String keyName, String alg, String value) throws DefaultMuleException {
+    return client.encryptKey(keyName, alg, value);
+  }
+
+  public Decrypt decryptKey(String keyName, String alg, String value) throws DefaultMuleException {
+    return client.decryptKey(keyName, alg, value);
   }
 
   public HttpClient getHttpClient() {
