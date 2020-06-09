@@ -39,6 +39,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     private static String secretName;
     private static String secretValue;
     private static String certificateName;
+    private static String vaultName;
     private static String alg;
     private final static String ENCRYPT_VALUE= "AVIO";
 
@@ -72,7 +73,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         System.setProperty("akv.test.certificate.name", getCertificateName());
         System.setProperty("akv.test.alg", getAlg());
         System.setProperty("akv.test.value", ENCRYPT_VALUE);
-        //System.setProperty("akv.test.decrypt.value", "");
 
         //Not using it in Integration test case
         System.setProperty("AKV_TEST_AUTH_URL", "");
@@ -113,6 +113,13 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
             alg = "RSA1_5";
         }
         return alg;
+    }
+
+    public static String getVaultName() {
+        if (vaultName == null || vaultName.length() == 0) {
+            vaultName = System.getProperty("AZURE_VAULT_NAME");
+        }
+        return vaultName;
     }
 
 
@@ -164,7 +171,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
                 .getValue();
         Certificate certificate = (Certificate) payloadValue;
         System.out.println(certificate);
-        assertThat(certificate.getPolicy().getId(), is("https://akv-mule-integration-key.vault.azure.net/certificates/" + certificateName + "/policy"));
+        assertThat(certificate.getPolicy().getId(), is("https://" + getVaultName() + ".vault.azure.net/certificates/" + certificateName + "/policy"));
     }
 
     @Test
@@ -176,7 +183,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
                 .getValue();
         Encrypt encrypt = (Encrypt) payloadValue;
         System.out.println(encrypt);
-        assertThat(encrypt.getKid(), containsString("https://akv-mule-integration-key.vault.azure.net/keys"));
+        assertThat(encrypt.getKid(), containsString("https://" + getVaultName() + ".vault.azure.net/keys"));
     }
     @Test
     public void decryptKeyTest() throws Exception {
@@ -193,7 +200,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     public static void createKey() {
         System.out.println("beforeclass start");
         KeyClient keyClient = new KeyClientBuilder()
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         System.out.println(keyClient);
@@ -206,7 +213,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     public static void deleteKey(){
         System.out.println("afterclass start");
         KeyClient keyClient = new KeyClientBuilder()
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         SyncPoller<DeletedKey, Void> deletedKeyPoller = keyClient.beginDeleteKey(keyName);
@@ -219,7 +226,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     public static void createSecret() {
         System.out.println("beforeclass start");
         SecretClient secretClient = new SecretClientBuilder()
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         System.out.println(secretClient);
@@ -231,7 +238,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     public static void deleteSecret(){
         System.out.println("afterclass start");
         SecretClient secretClient = new SecretClientBuilder()
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         SyncPoller<DeletedSecret, Void> deletedSecretPoller = secretClient.beginDeleteSecret(secretName);
@@ -245,7 +252,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         System.out.println("beforeclass start");
         CertificateClient certificateClient = new CertificateClientBuilder()
                 .credential(new DefaultAzureCredentialBuilder().build())
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                 .buildClient();
         CertificatePolicy certificatePolicy = new CertificatePolicy("Self",
@@ -262,7 +269,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         System.out.println("afterclass start");
         CertificateClient certificateClient = new CertificateClientBuilder()
                 .credential(new DefaultAzureCredentialBuilder().build())
-                .vaultUrl("https://akv-mule-integration-key.vault.azure.net/")
+                .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .httpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                 .buildClient();
         SyncPoller<DeletedCertificate, Void> deleteCertificatePoller =
