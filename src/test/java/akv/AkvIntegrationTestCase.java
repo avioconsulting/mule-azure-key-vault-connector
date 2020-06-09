@@ -1,8 +1,6 @@
 package akv;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Certificate;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Key;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.Secret;
+import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.Response;
@@ -14,9 +12,9 @@ import com.azure.identity.DefaultAzureCredentialBuilder;
 import com.azure.security.keyvault.certificates.CertificateClient;
 import com.azure.security.keyvault.certificates.CertificateClientBuilder;
 import com.azure.security.keyvault.certificates.models.*;
+import com.azure.security.keyvault.certificates.models.CertificatePolicy;
 import com.azure.security.keyvault.keys.KeyClient;
 import com.azure.security.keyvault.keys.KeyClientBuilder;
-
 import com.azure.security.keyvault.keys.models.CreateRsaKeyOptions;
 import com.azure.security.keyvault.keys.models.DeletedKey;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
@@ -29,9 +27,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mule.functional.junit4.MuleArtifactFunctionalTestCase;
-
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.StringContains.containsString;
 
 
 public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
@@ -39,33 +39,41 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     private static String secretName;
     private static String secretValue;
     private static String certificateName;
+    private static String alg;
+    private final static String ENCRYPT_VALUE= "AVIO";
 
     @Override
     protected String getConfigFile() {
         return "integration-test-mule-config.xml";
     }
 
-    private static void setGlobals(){
+    private static void setGlobals() {
         String azureClientId = System.getProperty("azure.client.id");
-        if(azureClientId != null && !azureClientId.isEmpty()) {
+        if (azureClientId != null && !azureClientId.isEmpty()) {
             System.setProperty("AZURE_CLIENT_ID", azureClientId);
         }
         String azureClientSecret = System.getProperty("azure.client.secret");
-        if(azureClientSecret != null && !azureClientSecret.isEmpty()) {
+        if (azureClientSecret != null && !azureClientSecret.isEmpty()) {
             System.setProperty("AZURE_CLIENT_SECRET", azureClientSecret);
         }
         String azureTenantId = System.getProperty("azure.tenant.id");
-        if(azureTenantId != null && !azureTenantId.isEmpty()) {
+        if (azureTenantId != null && !azureTenantId.isEmpty()) {
             System.setProperty("AZURE_TENANT_ID", azureTenantId);
         }
         String azureVaultName = System.getProperty("azure.vault.name");
-        if(azureVaultName != null && !azureVaultName.isEmpty()) {
+        if (azureVaultName != null && !azureVaultName.isEmpty()) {
             System.setProperty("AZURE_VAULT_NAME", azureVaultName);
         }
+    }
+    private static void setSystemProperties() {
         System.setProperty("akv.test.key.name", getKeyName());
         System.setProperty("akv.test.secret.name", getSecretName());
         System.setProperty("akv.test.secret.value", getSecretValue());
         System.setProperty("akv.test.certificate.name", getCertificateName());
+        System.setProperty("akv.test.alg", getAlg());
+        System.setProperty("akv.test.value", ENCRYPT_VALUE);
+        //System.setProperty("akv.test.decrypt.value", "");
+
         //Not using it in Integration test case
         System.setProperty("AKV_TEST_AUTH_URL", "");
         System.setProperty("AKV_TEST_URL", "");
@@ -100,11 +108,20 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         return certificateName;
     }
 
+    public static String getAlg() {
+        if (alg == null || alg.length() == 0) {
+            alg = "RSA1_5";
+        }
+        return alg;
+    }
+
+
     @BeforeClass public static void initializeVault() {
         setGlobals();
         createKey();
         createSecret();
         createCertificate();
+        setSystemProperties();
     }
 
     @AfterClass public static void cleanUpVault(){
@@ -150,6 +167,29 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         assertThat(certificate.getPolicy().getId(), is("https://akv-mule-integration-key.vault.azure.net/certificates/" + certificateName + "/policy"));
     }
 
+    @Test
+    public void encryptKeyTest() throws Exception {
+        Object payloadValue = flowRunner("encryptKeyTest")
+                .run()
+                .getMessage()
+                .getPayload()
+                .getValue();
+        Encrypt encrypt = (Encrypt) payloadValue;
+        System.out.println(encrypt);
+        assertThat(encrypt.getKid(), containsString("https://akv-mule-integration-key.vault.azure.net/keys"));
+    }
+    @Test
+    public void decryptKeyTest() throws Exception {
+        Object payloadValue = flowRunner("decryptKeyTest")
+                .run()
+                .getMessage()
+                .getPayload()
+                .getValue();
+        Decrypt decrypt = (Decrypt) payloadValue;
+        System.out.println(decrypt);
+        assertThat(decrypt.getValue(), is(ENCRYPT_VALUE));
+    }
+
     public static void createKey() {
         System.out.println("beforeclass start");
         KeyClient keyClient = new KeyClientBuilder()
@@ -157,7 +197,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         System.out.println(keyClient);
-        Response<KeyVaultKey> createKeyResponse = keyClient.createRsaKeyWithResponse(new CreateRsaKeyOptions(keyName)
+        Response<KeyVaultKey> createKeyResponse = keyClient.createRsaKeyWithResponse(new CreateRsaKeyOptions(getKeyName())
                 .setKeySize(2048), new Context("key1", "value1"));
         System.out.printf("Create Key operation succeeded with status code %s \n", createKeyResponse.getStatusCode());
         System.out.println("key created successfully");
@@ -183,7 +223,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .buildClient();
         System.out.println(secretClient);
-        KeyVaultSecret secret = secretClient.setSecret(secretName, secretValue);
+        KeyVaultSecret secret = secretClient.setSecret(getSecretName(), getSecretValue());
         System.out.printf("Secret is created with name %s and value %s \n", secret.getName(), secret.getValue());
         System.out.println("Secret created successfully");
     }
@@ -211,7 +251,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         CertificatePolicy certificatePolicy = new CertificatePolicy("Self",
                 "CN=SelfSignedJavaPkcs12");
         SyncPoller<CertificateOperation, KeyVaultCertificateWithPolicy> certificatePoller = certificateClient
-                .beginCreateCertificate(certificateName, CertificatePolicy.getDefault());
+                .beginCreateCertificate(getCertificateName(), CertificatePolicy.getDefault());
         certificatePoller.waitUntil(LongRunningOperationStatus.SUCCESSFULLY_COMPLETED);
         KeyVaultCertificate certificate = certificatePoller.getFinalResult();
         System.out.printf("Certificate created with name %s", certificate.getName());

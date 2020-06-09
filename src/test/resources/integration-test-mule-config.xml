@@ -19,4 +19,14 @@
     <flow name="getCertificateTest" >
         <akv:get-certificate config-ref="config" certificateName="${akv.test.certificate.name}"/>
     </flow>
+
+    <flow name="encryptKeyTest" >
+        <akv:encrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="${akv.test.value}" />
+    </flow>
+
+    <flow name="decryptKeyTest" >
+        <akv:encrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="${akv.test.value}" />
+        <set-variable value="#[payload.value]" variableName="encryptedValue"/>
+        <akv:decrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="#[payload.value]" />
+    </flow>
 </mule>
