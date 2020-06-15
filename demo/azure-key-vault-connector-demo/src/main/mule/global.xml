@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:akv="http://www.mulesoft.org/schema/mule/akv"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:akv="http://www.mulesoft.org/schema/mule/akv" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd 
-http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd">
+http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 	
 	<http:listener-config name="akv-mule-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
     <apikit:config name="akv-mule-api-config" api="akv-mule-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     	<akv:config name="Azure_Key_Vault_Config" doc:name="Azure Key Vault Config" doc:id="27a7d39c-48d5-4c6c-9a5b-30d2e6bffa7a" >
-		<akv:connection vaultName="${vault.name}" tenantId="${tenant.id}" clientId="${client.id}" clientSecret="${client.secret}" baseUri="${oauth.url}"/>
+		<akv:connection vaultName="${vault.name}" tenantId="${tenant.id}" clientId="${client.id}" clientSecret="${client.secret}" baseUri="${oauth.url}">
+			<tls:context >
+				<tls:trust-store path="microsoft-trust.jks" password="password" type="jks" />
+			</tls:context>
+		</akv:connection>
 	</akv:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="ce93fc4c-e5a4-4e73-bcc8-071db5f8f3ca" file="local.properties" />
 	</mule>
