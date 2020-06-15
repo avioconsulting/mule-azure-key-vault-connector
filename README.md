@@ -30,7 +30,7 @@ Add this dependency to your application pom.xml
 ```
 <groupId>com.avioconsulting.mule.connector</groupId>
 <artifactId>mule-azure-key-vault-connector</artifactId>
-<version>0.1.0-SNAPSHOT</version>
+<version>1.1.0</version>
 <classifier>mule-plugin</classifier>
 ```
 
@@ -76,7 +76,7 @@ The Mule Azure Key Connector can be deployed to an Exchange with a few small mod
            <modelVersion>4.0.0</modelVersion>
            <groupId>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</groupId>
            <artifactId>mule-azure-key-vault-connector</artifactId>
-           <version>0.1.0-SNAPSHOT</version>
+           <version>1.1.0</version>
            <packaging>mule-extension</packaging>
            <name>Akv Extension</name>
         ```

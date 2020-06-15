@@ -133,7 +133,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     @AfterClass public static void cleanUpVault(){
-        setGlobals();
+//        setGlobals();
         deleteKey();
         deleteSecret();
         deleteCertificate();
@@ -208,6 +208,21 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         Secret secret = (Secret) payloadValue;
         System.out.println(secret);
         assertThat(secret.getValue(), is(secretValue));
+    }
+
+    @Test
+    public void invalidTlsTest() throws Exception {
+        try {
+            Object payloadValue = flowRunner("invalidTlsTest")
+                    .run()
+                    .getMessage()
+                    .getPayload()
+                    .getValue();
+            fail("Exception should have been thrown.");
+        } catch (Exception e) {
+            System.out.println("Found error: " + e.getMessage());
+            assertThat(e.getMessage(), containsString("Error retrieving secret"));
+        }
     }
 
     public static void createKey() {
