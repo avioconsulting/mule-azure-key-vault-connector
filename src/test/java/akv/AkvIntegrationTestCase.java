@@ -32,6 +32,7 @@ import java.util.Random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
+import static org.junit.Assert.fail;
 
 
 public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
@@ -197,8 +198,19 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
         assertThat(decrypt.getValue(), is(ENCRYPT_VALUE));
     }
 
+    @Test
+    public void validTlsTest() throws Exception {
+        Object payloadValue = flowRunner("validTlsTest")
+                .run()
+                .getMessage()
+                .getPayload()
+                .getValue();
+        Secret secret = (Secret) payloadValue;
+        System.out.println(secret);
+        assertThat(secret.getValue(), is(secretValue));
+    }
+
     public static void createKey() {
-        System.out.println("beforeclass start");
         KeyClient keyClient = new KeyClientBuilder()
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
@@ -211,7 +223,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     public static void deleteKey(){
-        System.out.println("afterclass start");
         KeyClient keyClient = new KeyClientBuilder()
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
@@ -224,7 +235,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     public static void createSecret() {
-        System.out.println("beforeclass start");
         SecretClient secretClient = new SecretClientBuilder()
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
@@ -236,7 +246,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     public static void deleteSecret(){
-        System.out.println("afterclass start");
         SecretClient secretClient = new SecretClientBuilder()
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
                 .credential(new DefaultAzureCredentialBuilder().build())
@@ -249,7 +258,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     public static void createCertificate()  {
-        System.out.println("beforeclass start");
         CertificateClient certificateClient = new CertificateClientBuilder()
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
@@ -266,7 +274,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     public static void deleteCertificate(){
-        System.out.println("afterclass start");
         CertificateClient certificateClient = new CertificateClientBuilder()
                 .credential(new DefaultAzureCredentialBuilder().build())
                 .vaultUrl("https://" + getVaultName() + ".vault.azure.net/")
