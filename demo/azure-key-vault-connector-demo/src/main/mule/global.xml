@@ -17,7 +17,7 @@ http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/
     	<akv:config name="Azure_Key_Vault_Config" doc:name="Azure Key Vault Config" doc:id="27a7d39c-48d5-4c6c-9a5b-30d2e6bffa7a" >
 		<akv:connection vaultName="${vault.name}" tenantId="${tenant.id}" clientId="${client.id}" clientSecret="${client.secret}" baseUri="${oauth.url}">
 			<tls:context >
-				<tls:trust-store path="microsoft.truststore" password="password" type="jks" />
+				<tls:trust-store path="microsoft-trust.jks" password="password" type="jks" />
 			</tls:context>
 		</akv:connection>
 	</akv:config>
