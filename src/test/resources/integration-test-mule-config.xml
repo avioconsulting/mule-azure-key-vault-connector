@@ -1,0 +1,56 @@
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:akv="http://www.mulesoft.org/schema/mule/akv"
+      xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+          http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd
+          http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+
+    <akv:config name="config" >
+        <akv:connection vaultName="${AZURE_VAULT_NAME}" tenantId="${AZURE_TENANT_ID}" clientId="${AZURE_CLIENT_ID}" clientSecret="${AZURE_CLIENT_SECRET}" />
+    </akv:config>
+
+    <flow name="getKeyTest" >
+        <akv:get-key config-ref="config" keyName="${akv.test.key.name}"/>
+    </flow>
+
+    <flow name="getSecretTest" >
+        <akv:get-secret config-ref="config" secretName="${akv.test.secret.name}"/>
+    </flow>
+
+    <flow name="getCertificateTest" >
+        <akv:get-certificate config-ref="config" certificateName="${akv.test.certificate.name}"/>
+    </flow>
+
+    <flow name="encryptKeyTest" >
+        <akv:encrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="${akv.test.value}" />
+    </flow>
+
+    <flow name="decryptKeyTest" >
+        <akv:encrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="${akv.test.value}" />
+        <akv:decrypt-key config-ref="config" keyName="${akv.test.key.name}" alg="${akv.test.alg}" value="#[payload.value]" />
+    </flow>
+
+    <!-- TLS Testing -->
+    <flow name="validTlsTest" >
+        <akv:get-secret config-ref="tlsconfig" secretName="${akv.test.secret.name}"/>
+    </flow>
+    <akv:config name="tlsconfig" >
+        <akv:connection vaultName="${AZURE_VAULT_NAME}" tenantId="${AZURE_TENANT_ID}" clientId="${AZURE_CLIENT_ID}" clientSecret="${AZURE_CLIENT_SECRET}">
+            <tls:context >
+                <tls:trust-store path="demo/azure-key-vault-connector-demo/src/main/resources/microsoft-trust.jks" password="password" type="jks" />
+            </tls:context>
+        </akv:connection>
+    </akv:config>
+
+    <flow name="invalidTlsTest" >
+        <akv:get-secret config-ref="invalidtlsconfig" secretName="${akv.test.secret.name}"/>
+    </flow>
+    <akv:config name="invalidtlsconfig" >
+        <akv:connection vaultName="${AZURE_VAULT_NAME}" tenantId="${AZURE_TENANT_ID}" clientId="${AZURE_CLIENT_ID}" clientSecret="${AZURE_CLIENT_SECRET}">
+            <tls:context >
+                <tls:trust-store path="demo/azure-key-vault-connector-demo/src/main/resources/unknown-trust.jks" password="password" type="jks" />
+            </tls:context>
+        </akv:connection>
+    </akv:config>
+</mule>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:akv="http://www.mulesoft.org/schema/mule/akv"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/akv http://www.mulesoft.org/schema/mule/akv/current/mule-akv.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<sub-flow name="get-key" doc:id="fd4ab764-6784-43eb-8159-3ee281802ce2" >
+		<akv:get-key doc:name="Get key" doc:id="98540f17-9286-4b95-b627-dbe2ec388ba6" keyName="#[attributes.queryParams.keyName]" config-ref="Azure_Key_Vault_Config"/>
+		<ee:transform doc:name="response" doc:id="5e1b4254-aef7-4095-85b6-177c1f9c162d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="get-secret" doc:id="5b299df2-c305-4e71-89f5-fdaf7510b2b3" >
+		<akv:get-secret doc:name="Get secret" doc:id="e0ee4457-6e07-47c6-a2fe-1a7d526edc80" config-ref="Azure_Key_Vault_Config" secretName="#[attributes.queryParams.secretName]"/>
+		<ee:transform doc:name="response" doc:id="298059ae-1cec-4010-a652-a262fe7b3dc5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="get-certificate" doc:id="3c29ce61-d516-47e8-9f70-760dfc441462" >
+		<akv:get-certificate doc:name="Get certificate" doc:id="808e6676-ab1c-4372-b018-de0e71ca5918" certificateName="#[attributes.queryParams.certName]" config-ref="Azure_Key_Vault_Config"/>
+		<ee:transform doc:name="response" doc:id="d6e1fb03-9ae8-4159-9923-96e79ecc3512" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="encrypt-key" doc:id="a796ba19-8c9f-4516-9213-358924b8ca28" >
+		<akv:encrypt-key doc:name="Encrypt key" doc:id="f2de27a9-cfe6-4373-b646-d465e254970c" config-ref="Azure_Key_Vault_Config" keyName="#[attributes.queryParams.keyName]" alg="#[attributes.queryParams.alg]" value="#[attributes.queryParams.value]"/>
+		<ee:transform doc:name="response" doc:id="b4eb53d7-a824-4ac3-a9a8-35cb6dc3cb51" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="decrypt-key" doc:id="110ff5f9-c941-4583-80ea-e8c30e711132" >
+		<akv:decrypt-key doc:name="Decrypt key" doc:id="11c7b74b-28e8-4fb1-a389-ed34162cdb9d" config-ref="Azure_Key_Vault_Config" keyName="#[attributes.queryParams.keyName]" alg="#[attributes.queryParams.alg]" value="#[attributes.queryParams.value]"/>
+		<ee:transform doc:name="response" doc:id="6c2e22ff-2530-41d0-a601-3c9defd8368a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

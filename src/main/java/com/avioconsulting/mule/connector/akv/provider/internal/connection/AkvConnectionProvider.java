@@ -118,6 +118,12 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
     }
     HttpClientConfiguration.Builder builder = new HttpClientConfiguration.Builder();
     if (tlsContextFactory != null) {
+      if (tlsContextFactory.getTrustStoreConfiguration() != null) {
+        LOGGER.info("Azure Vault TLS Trust Store Path: " + tlsContextFactory.getTrustStoreConfiguration().getPath());
+      }
+      if (tlsContextFactory.getKeyStoreConfiguration() != null) {
+        LOGGER.info("Azure Vault TLS Key Store Path: " + tlsContextFactory.getKeyStoreConfiguration().getPath());
+      }
       builder.setTlsContextFactory(tlsContextFactory);
     }
     httpClient = httpService.getClientFactory().create(builder.setName(configName).build());

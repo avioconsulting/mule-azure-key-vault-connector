@@ -6,14 +6,15 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avioconsulting.mule.connector</groupId>
     <artifactId>mule-azure-key-vault-connector</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>mule-extension</packaging>
     <name>MuleSoft Azure Key Vault Connector</name>
     <properties>
-		<muleSchedulerServiceVersion>1.2.0</muleSchedulerServiceVersion>
-		<muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
-		<maven.site.plugin.version>3.9.0</maven.site.plugin.version>
-		<mavenCompilerVersion>3.8.1</mavenCompilerVersion>
+        <muleSchedulerServiceVersion>1.2.0</muleSchedulerServiceVersion>
+        <muleHttpServiceVersion>1.4.0</muleHttpServiceVersion>
+	    <maven.site.plugin.version>3.9.0</maven.site.plugin.version>
+	    <mavenCompilerVersion>3.8.1</mavenCompilerVersion>
+        <azureIdentityVersion>1.0.6</azureIdentityVersion>
     </properties>
 
     <parent>
@@ -90,6 +91,30 @@
             <artifactId>gson</artifactId>
             <version>2.8.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-security-keyvault-keys</artifactId>
+            <version>4.1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-security-keyvault-secrets</artifactId>
+            <version>4.1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-security-keyvault-certificates</artifactId>
+            <version>4.0.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>${azureIdentityVersion}</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- for mock server - https://www.mock-server.com/ -->
         <dependency>
@@ -102,6 +127,12 @@
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-client-java</artifactId>
             <version>5.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>${azureIdentityVersion}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <repositories>
@@ -135,9 +166,10 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    <!-- Uncomment this for Exchange deployment -->
     <profiles>
         <profile>
-            <id>exchange</id>
+            <id>anypoint</id>
             <distributionManagement>
                 <snapshotRepository>
                     <id>exchange-repository</id>
@@ -153,30 +185,5 @@
                 </repository>
             </distributionManagement>
         </profile>
-		<profile>
-			<id>AVIO</id>
-			<distributionManagement>
-				<repository>
-					<id>deploy-releases</id>
-					<name>avio-releases</name>
-					<url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
-				</repository>
-				<snapshotRepository>
-					<id>deploy-snapshots</id>
-					<name>avio-snapshots</name>
-					<url>https://devops.avioconsulting.com/nexus/repository/avio-snapshots/</url>
-				</snapshotRepository>   
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>github</id>
-			<distributionManagement>
-				<repository>
-					<id>github</id>
-					<name>GitHub OWNER Apache Maven Packages</name>
-					<url>https://maven.pkg.github.com/avioconsulting/mule-azure-key-vault-connector</url>
-				</repository>
-			</distributionManagement>
-		</profile>
     </profiles>
 </project>

@@ -16,6 +16,13 @@ Link to official documentation.  [Azure - Get Key](https://docs.microsoft.com/en
 This operation retrieves data about a specific certificate.  
 Link to official documentation.  [Azure - Get Certificate](https://docs.microsoft.com/en-us/rest/api/keyvault/getcertificate/getcertificate])
 
+### Encrypt
+This operation encrypts the value of a key provided.
+Link to official documentation. [Azure - Encrypt](https://docs.microsoft.com/en-us/rest/api/keyvault/encrypt/encrypt)
+
+### Decrypt
+This operation decrypts the value of a key provided.
+Link to official documentation. [Azure -Decrypt](https://docs.microsoft.com/en-us/rest/api/keyvault/decrypt/decrypt)
 
 ## Dependency
 Add this dependency to your application pom.xml
@@ -23,7 +30,7 @@ Add this dependency to your application pom.xml
 ```
 <groupId>com.avioconsulting.mule.connector</groupId>
 <artifactId>mule-azure-key-vault-connector</artifactId>
-<version>0.1.0-SNAPSHOT</version>
+<version>1.1.0</version>
 <classifier>mule-plugin</classifier>
 ```
 
@@ -53,6 +60,12 @@ To find the above configuration values,
   * To get the ClientSecret, navigate to home, search for key vault under Azure services, select the Key and go to secrets tab on the left
   * On the same page, go to overview tab to find the Azure key host name (Shown as DNS Name)
 
+### To run the Test cases 
+
+To run the test cases, use `mvn clean test -Dazure.client.id=xxxxxxxxxxxxx -Dazure.client.secret=xxxxxxxxxxxxx -Dazure.tenant.id=xxxxxxxxxxxxx -Dazure.vault.name=xxxxxxxxxxxxx`
+
+* replace the `-Dazure.client.id`, `-Dazure.client.secret` `-Dazure.tenant.id` and `-Dazure.vault.name` with correct values before running the command.
+
 ## Deploying to Exchange
 The Mule Azure Key Connector can be deployed to an Exchange with a few small modifications.
 > Shamelessly stolen from Manik Mager's [blog post](https://javastreets.com/blog/publish-connectors-to-anypoint-exchange.html)
@@ -63,7 +76,7 @@ The Mule Azure Key Connector can be deployed to an Exchange with a few small mod
            <modelVersion>4.0.0</modelVersion>
            <groupId>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</groupId>
            <artifactId>mule-azure-key-vault-connector</artifactId>
-           <version>0.1.0-SNAPSHOT</version>
+           <version>1.1.0</version>
            <packaging>mule-extension</packaging>
            <name>Akv Extension</name>
         ```
