@@ -47,26 +47,26 @@ public class AzureKeyVaultClient extends AzureClient {
    */
   public Secret getSecret(String secretName) throws DefaultMuleException {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(getHttpBaseUri() + BASE_SECRET_PATH + secretName)
-        .addQueryParam(PARAM_API_VERSION, API_VERSION)
-        .method(HttpConstants.Method.GET).build();
+            .uri(getHttpBaseUri() + BASE_SECRET_PATH + secretName)
+            .addQueryParam(PARAM_API_VERSION, API_VERSION)
+            .method(HttpConstants.Method.GET).build();
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
     CompletableFuture<HttpResponse> completable = getHttpClient()
-        .sendAsync(request, requestOptions);
+            .sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
       Gson gson = new Gson();
       Integer statusCode = response.getStatusCode();
       if (statusCode == 200) {
         Secret secret = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
-                    Secret.class);
-        LOGGER.info(secret.toString());
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        Secret.class);
+        LOGGER.debug(secret.toString());
         return secret;
       } else {
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
-                KeyVaultError.class);
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        KeyVaultError.class);
         if (statusCode == 404) {
           throw new SecretNotFoundException(error.getError().getMessage());
         } else {
@@ -87,27 +87,27 @@ public class AzureKeyVaultClient extends AzureClient {
    */
   public Key getKey(String keyName) throws DefaultMuleException {
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(getHttpBaseUri() + BASE_KEY_PATH + keyName)
-        .addQueryParam(PARAM_API_VERSION, API_VERSION)
-        .method(HttpConstants.Method.GET)
-        .build();
-    LOGGER.info("GetKey Request: " + request.toString());
+            .uri(getHttpBaseUri() + BASE_KEY_PATH + keyName)
+            .addQueryParam(PARAM_API_VERSION, API_VERSION)
+            .method(HttpConstants.Method.GET)
+            .build();
+    LOGGER.debug("GetKey Request: " + request.toString());
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
     CompletableFuture<HttpResponse> completable = getHttpClient()
-        .sendAsync(request, requestOptions);
+            .sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
       Gson gson = new Gson();
       Integer statusCode = response.getStatusCode();
       if (statusCode == 200) {
         Key key = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Key.class);
-        LOGGER.info(key.toString());
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Key.class);
+        LOGGER.debug(key.toString());
         return key;
       } else {
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
-                KeyVaultError.class);
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        KeyVaultError.class);
         if (statusCode == 404) {
           throw new KeyNotFoundException(error.getError().getMessage());
         } else {
@@ -129,13 +129,13 @@ public class AzureKeyVaultClient extends AzureClient {
   public Certificate getCertificate(String certificateName) throws DefaultMuleException {
 
     HttpRequest request = getAuthenticatedHttpRequestBuilder()
-        .uri(getHttpBaseUri() + BASE_CERTIFICATE_PATH + certificateName + CERTIFICATE_STATUS_PATH)
-        .addQueryParam(PARAM_API_VERSION, API_VERSION)
-        .method(HttpConstants.Method.GET).build();
+            .uri(getHttpBaseUri() + BASE_CERTIFICATE_PATH + certificateName + CERTIFICATE_STATUS_PATH)
+            .addQueryParam(PARAM_API_VERSION, API_VERSION)
+            .method(HttpConstants.Method.GET).build();
     LOGGER.info("GetCertificate Request: " + request.toString());
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
     CompletableFuture<HttpResponse> completable = getHttpClient()
-        .sendAsync(request, requestOptions);
+            .sendAsync(request, requestOptions);
     try {
       HttpResponse response = completable.get();
       Gson gson = new Gson();
@@ -143,15 +143,15 @@ public class AzureKeyVaultClient extends AzureClient {
       LOGGER.info("Found status code: " + statusCode);
       if (statusCode == 200) {
         Certificate certificate = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
-                    Certificate.class);
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        Certificate.class);
         LOGGER.info(certificate.toString());
         return certificate;
       } else {
         LOGGER.info(response.toString());
         KeyVaultError error = gson
-            .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
-                KeyVaultError.class);
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
+                        KeyVaultError.class);
         if (statusCode == 404) {
           throw new CertificateNotFoundException(error.getError().getMessage());
         } else {
@@ -174,7 +174,7 @@ public class AzureKeyVaultClient extends AzureClient {
             .addHeader(HTTP_CONTENT_TYPE, APPLICATION_JSON)
             .entity(entity)
             .build();
-    LOGGER.info("encryptKey Request: " + request.toString() + jsonRequest );
+    LOGGER.debug("encryptKey Request: " + request.toString() + jsonRequest );
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
     CompletableFuture<HttpResponse> completable = getHttpClient()
             .sendAsync(request, requestOptions);
@@ -214,7 +214,7 @@ public class AzureKeyVaultClient extends AzureClient {
             .addHeader(HTTP_CONTENT_TYPE, APPLICATION_JSON)
             .entity(entity)
             .build();
-    LOGGER.info("decryptKey Request: " + request.toString() + jsonRequest );
+    LOGGER.debug("decryptKey Request: " + request.toString() + jsonRequest );
     HttpRequestOptions requestOptions = getHttpRequestOptionsBuilder().build();
     CompletableFuture<HttpResponse> completable = getHttpClient()
             .sendAsync(request, requestOptions);
@@ -225,7 +225,7 @@ public class AzureKeyVaultClient extends AzureClient {
       if (statusCode == 200) {
         Decrypt decrypt = gson
                 .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), Decrypt.class);
-        LOGGER.info(decrypt.toString());
+        LOGGER.debug(decrypt.toString());
         return decrypt;
       } else {
         KeyVaultError error = gson
