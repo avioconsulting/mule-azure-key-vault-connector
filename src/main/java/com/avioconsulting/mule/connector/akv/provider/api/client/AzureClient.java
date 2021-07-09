@@ -103,14 +103,14 @@ public class AzureClient {
                 .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                         OAuthToken.class);
         token.setExpiresOn();
-        LOGGER.info(token.toString());
+        LOGGER.debug(token.toString());
       } else {
         throw new AccessDeniedException("Failed to authenticate.  "
                 + "Authentication service returned status code: "
                 + response.getStatusCode());
       }
     } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
-      e.printStackTrace();
+      LOGGER.debug("authenticate error", e);
       throw new DefaultMuleException(e.getMessage());
     }
   }
