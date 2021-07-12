@@ -1,6 +1,6 @@
 package akv;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
+import com.avioconsulting.mule.connector.akv.provider.api.model.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockserver.client.MockServerClient;

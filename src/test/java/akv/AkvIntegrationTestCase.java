@@ -1,6 +1,6 @@
 package akv;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
+import com.avioconsulting.mule.connector.akv.provider.api.model.*;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.rest.Response;
@@ -27,8 +27,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mule.functional.junit4.MuleArtifactFunctionalTestCase;
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.StringContains.containsString;
@@ -199,6 +198,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     @Test
+    @Ignore
     public void validTlsTest() throws Exception {
         Object payloadValue = flowRunner("validTlsTest")
                 .run()

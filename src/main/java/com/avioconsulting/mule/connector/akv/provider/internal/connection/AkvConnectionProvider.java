@@ -86,8 +86,7 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
   @Override
   public AkvConnection connect() throws ConnectionException {
     try {
-      return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId,
-              clientSecret, timeout);
+      return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
     } catch (DefaultMuleException e) {
       throw new ConnectionException(e);
     }
