@@ -110,7 +110,7 @@ public class AzureClient {
                 .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                         OAuthToken.class);
         token.setExpiresOn();
-        LOGGER.info(token.toString());
+        LOGGER.debug(token.toString());
       } else if (response.getStatusCode() == 400) {
         OAuthError err = gson
                 .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthError.class);
