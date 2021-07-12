@@ -32,7 +32,6 @@
     </flow>
 
     <!-- TLS Testing -->
-    <!--
     <flow name="validTlsTest" >
         <akv:get-secret config-ref="tlsconfig" secretName="${akv.test.secret.name}"/>
     </flow>
@@ -54,5 +53,4 @@
             </tls:context>
         </akv:connection>
     </akv:config>
-    -->
 </mule>

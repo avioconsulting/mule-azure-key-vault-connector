@@ -198,7 +198,6 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
     }
 
     @Test
-    @Ignore
     public void validTlsTest() throws Exception {
         Object payloadValue = flowRunner("validTlsTest")
                 .run()
@@ -221,7 +220,7 @@ public class AkvIntegrationTestCase extends MuleArtifactFunctionalTestCase {
             fail("Exception should have been thrown.");
         } catch (Exception e) {
             System.out.println("Found error: " + e.getMessage());
-            assertThat(e.getMessage(), containsString("Error retrieving secret"));
+            assertThat(e.getMessage(), containsString("Error authenticating"));
         }
     }
 

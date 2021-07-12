@@ -11,6 +11,7 @@ import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.SSLHandshakeException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -33,7 +34,7 @@ public class AzureKeyVaultClient extends AzureClient {
 
   public AzureKeyVaultClient(HttpClient httpClient, String vaultName, String baseUri,
                              String tenantId, String clientId, String clientSecret,
-                             Integer timeout) throws DefaultMuleException {
+                             Integer timeout) throws MuleException {
     super(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
   }
 

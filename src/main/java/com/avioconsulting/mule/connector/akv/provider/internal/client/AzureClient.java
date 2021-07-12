@@ -4,6 +4,8 @@ import com.avioconsulting.mule.connector.akv.provider.api.model.OAuthError;
 import com.avioconsulting.mule.connector.akv.provider.api.model.OAuthToken;
 import com.avioconsulting.mule.connector.akv.provider.internal.error.AccessDeniedException;
 import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+
+import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.exception.DefaultMuleException;
+import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.core.api.util.IOUtils;
 import org.mule.runtime.http.api.HttpConstants;
 import org.mule.runtime.http.api.client.HttpClient;
@@ -64,7 +69,7 @@ public class AzureClient {
    */
   public AzureClient(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
                      String clientId, String clientSecret, Integer timeout)
-          throws AccessDeniedException, DefaultMuleException {
+          throws AccessDeniedException, MuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -80,7 +85,7 @@ public class AzureClient {
   }
 
 
-  private void authenticate() throws DefaultMuleException {
+  private void authenticate() throws MuleException {
     Map<String, Object> params = new HashMap<>();
     params.put(PARAM_GRANT_TYPE, GRANT_TYPE_CLIENT_CREDENTIALS);
     params.put(PARAM_CLIENT_ID, clientId);
@@ -105,29 +110,29 @@ public class AzureClient {
                 .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"),
                         OAuthToken.class);
         token.setExpiresOn();
-<<<<<<< Updated upstream:src/main/java/com/avioconsulting/mule/connector/akv/provider/api/client/AzureClient.java
-        LOGGER.debug(token.toString());
-=======
         LOGGER.info(token.toString());
       } else if (response.getStatusCode() == 400) {
         OAuthError err = gson
-                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthError.class );
+                .fromJson(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), OAuthError.class);
         LOGGER.warn("Error authenticating to Azure ({}) {}", response.getStatusCode(), err.toString());
         throw new AccessDeniedException(err.getErrorDescription());
->>>>>>> Stashed changes:src/main/java/com/avioconsulting/mule/connector/akv/provider/internal/client/AzureClient.java
       } else {
         LOGGER.warn("Error authenticating to Azure ({}) {}", response.getStatusCode(), IOUtils.toString(response.getEntity().getContent()));
         throw new AccessDeniedException("Failed to authenticate.  "
                 + "Authentication service returned status code: "
                 + response.getStatusCode());
       }
-    } catch (InterruptedException | ExecutionException | UnsupportedEncodingException e) {
-<<<<<<< Updated upstream:src/main/java/com/avioconsulting/mule/connector/akv/provider/api/client/AzureClient.java
-      LOGGER.debug("authenticate error", e);
-=======
+    } catch (ExecutionException e) {
+      try {
+        throw e.getCause();
+      } catch (IOException inner) {
+        throw new ConnectionException("Error authenticating to Azure", inner);
+      } catch (Throwable inner) {
+        throw new DefaultMuleException("Error authenticating to Azure", e);
+      }
+    } catch (InterruptedException | UnsupportedEncodingException e) {
       LOGGER.error("Error authenticating to Azure", e);
->>>>>>> Stashed changes:src/main/java/com/avioconsulting/mule/connector/akv/provider/internal/client/AzureClient.java
-      throw new DefaultMuleException(e.getMessage());
+      throw new DefaultMuleException("Error authenticating to Azure", e);
     }
   }
 
@@ -167,7 +172,7 @@ public class AzureClient {
         LOGGER.info("Access Token expired, re-authenticating.");
         authenticate();
         return validate();
-      } catch (DefaultMuleException e) {
+      } catch (MuleException e) {
         return false;
       }
     } else {

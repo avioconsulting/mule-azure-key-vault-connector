@@ -36,7 +36,7 @@ public final class AkvConnection {
    */
   public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
                        String clientId, String clientSecret, Integer timeout)
-          throws DefaultMuleException {
+          throws MuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -56,7 +56,7 @@ public final class AkvConnection {
     return client != null && client.isValid();
   }
 
-  public void initAkvClient() throws DefaultMuleException {
+  public void initAkvClient() throws MuleException {
     client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId,
             clientId, clientSecret, timeout);
   }
