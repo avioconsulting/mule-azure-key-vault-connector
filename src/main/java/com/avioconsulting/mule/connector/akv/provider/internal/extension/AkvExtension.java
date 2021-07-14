@@ -1,8 +1,7 @@
 package com.avioconsulting.mule.connector.akv.provider.internal.extension;
 
 import com.avioconsulting.mule.connector.akv.provider.api.AkvConfiguration;
-import com.avioconsulting.mule.connector.akv.provider.api.error.AzureKeyVaultErrorType;
-import org.mule.runtime.api.meta.Category;
+import com.avioconsulting.mule.connector.akv.provider.internal.error.AzureKeyVaultErrorType;
 import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
