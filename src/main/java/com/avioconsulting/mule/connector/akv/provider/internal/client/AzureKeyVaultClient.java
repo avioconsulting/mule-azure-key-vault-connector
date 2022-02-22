@@ -40,6 +40,7 @@ public class AzureKeyVaultClient extends AzureClient {
 
   private <T> T doRequest(KeyVaultRequest<T> keyVaultRequest) throws MuleException {
     try {
+      isValid();
       HttpResponse response = keyVaultRequest.prepare().get();
       Gson gson = new Gson();
       Integer statusCode = response.getStatusCode();
