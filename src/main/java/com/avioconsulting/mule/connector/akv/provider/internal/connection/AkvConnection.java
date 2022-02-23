@@ -1,8 +1,9 @@
 package com.avioconsulting.mule.connector.akv.provider.internal.connection;
 
-import com.avioconsulting.mule.connector.akv.provider.api.client.AzureKeyVaultClient;
-import com.avioconsulting.mule.connector.akv.provider.api.client.model.*;
+import com.avioconsulting.mule.connector.akv.provider.internal.client.AzureKeyVaultClient;
+import com.avioconsulting.mule.connector.akv.provider.api.model.*;
 import org.mule.runtime.api.exception.DefaultMuleException;
+import org.mule.runtime.api.exception.MuleException;
 import org.mule.runtime.http.api.client.HttpClient;
 
 /**
@@ -35,7 +36,7 @@ public final class AkvConnection {
    */
   public AkvConnection(HttpClient httpClient, String vaultName, String baseUri, String tenantId,
                        String clientId, String clientSecret, Integer timeout)
-          throws DefaultMuleException {
+          throws MuleException {
     this.httpClient = httpClient;
     this.vaultName = vaultName;
     this.baseUri = baseUri;
@@ -55,28 +56,28 @@ public final class AkvConnection {
     return client != null && client.isValid();
   }
 
-  public void initAkvClient() throws DefaultMuleException {
+  public void initAkvClient() throws MuleException {
     client = new AzureKeyVaultClient(httpClient, vaultName, baseUri, tenantId,
             clientId, clientSecret, timeout);
   }
 
-  public Secret getSecret(String path) throws DefaultMuleException {
+  public Secret getSecret(String path) throws MuleException {
     return client.getSecret(path);
   }
 
-  public Key getKey(String path) throws DefaultMuleException {
+  public Key getKey(String path) throws MuleException {
     return client.getKey(path);
   }
 
-  public Certificate getCertificate(String path) throws DefaultMuleException {
+  public Certificate getCertificate(String path) throws MuleException {
     return client.getCertificate(path);
   }
 
-  public Encrypt encryptKey(String keyName, String alg, String value) throws DefaultMuleException {
+  public Encrypt encryptKey(String keyName, String alg, String value) throws MuleException {
     return client.encryptKey(keyName, alg, value);
   }
 
-  public Decrypt decryptKey(String keyName, String alg, String value) throws DefaultMuleException {
+  public Decrypt decryptKey(String keyName, String alg, String value) throws MuleException {
     return client.decryptKey(keyName, alg, value);
   }
 
