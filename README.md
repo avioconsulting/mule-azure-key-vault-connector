@@ -1,6 +1,10 @@
 # Azure Key Vault Extension
 
 This connector allows the easy integration with Azure Key Vault.  All operations use the [Azure Key Vault REST API](https://docs.microsoft.com/en-us/rest/api/keyvault/) being invoked with a HTTP Client. 
+## Updates
+### 1.2.1 - February 23, 2022
+* Fixed microsoft-trust.jks to be valid - [Issue 23](https://github.com/avioconsulting/mule-azure-key-vault-connector/issues/23)
+* Added explicit connection validation before call - [Issue 27](https://github.com/avioconsulting/mule-azure-key-vault-connector/issues/27)
 
 ## Operations
 
