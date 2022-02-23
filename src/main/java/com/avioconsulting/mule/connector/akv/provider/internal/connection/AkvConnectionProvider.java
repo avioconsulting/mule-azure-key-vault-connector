@@ -85,6 +85,7 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
 
   @Override
   public AkvConnection connect() throws ConnectionException {
+    LOGGER.info("Creating AKV Connection");
     try {
       return new AkvConnection(httpClient, vaultName, baseUri, tenantId, clientId, clientSecret, timeout);
     } catch (MuleException e) {
@@ -94,6 +95,7 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
 
   @Override
   public void disconnect(AkvConnection connection) {
+    LOGGER.info("Disconnecting AKV Connection");
     try {
       connection.disconnect();
     } catch (Exception e) {
@@ -103,9 +105,11 @@ public class AkvConnectionProvider implements CachedConnectionProvider<AkvConnec
 
   @Override
   public ConnectionValidationResult validate(AkvConnection connection) {
+    LOGGER.debug("Validating AKV Connection.");
     if (connection.isValid()) {
       return ConnectionValidationResult.success();
     } else {
+      LOGGER.warn("AKV Connection no longer valid.");
       return ConnectionValidationResult.failure("Connection Invalid", null);
     }
   }
